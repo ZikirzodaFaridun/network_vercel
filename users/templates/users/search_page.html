@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Shorts</title>
+    <!-- Link to Google Material Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+    <style>
+        /* General body styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #202124; /* Dark background */
+            color: #e8eaed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Google-like title */
+        h1 {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-family: sans-serif;
+            letter-spacing: -3px;
+        }
+
+        /* Purple colorful logo effect */
+        h1 span:nth-child(1) { color: #9C27B0; }  /* Purple */
+        h1 span:nth-child(2) { color: #8E24AA; }  /* Darker purple */
+        h1 span:nth-child(3) { color: #7B1FA2; }  /* Rich purple */
+        h1 span:nth-child(4) { color: #6A1B9A; }  /* Deep purple */
+        h1 span:nth-child(5) { color: #9C27B0; }  /* Purple */
+        h1 span:nth-child(6) { color: #8E24AA; }  /* Darker purple */
+        h1 span:nth-child(7) { color: #7B1FA2; }  /* Rich purple */
+
+
+        /* Search form styling */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        /* Search input */
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            border: 1px solid #8b6da5;
+            border-radius: 24px 0 0 24px;
+            background-color: #303134;
+            color: #b13bff;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: #dfaaff;
+        }
+
+
+        /* Search button */
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 1px solid #8b6da5;
+            border-left: none;
+            border-radius: 0 24px 24px 0;
+            background-color: #303134;
+            color: #b05cff;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #8b6da5;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Buttons below search */
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #303134;
+            border: 1px solid #8b6da5;
+            color: #b05cff;
+            cursor: pointer;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+
+        }
+
+        .buttons button:hover {
+            background-color: #8b6da5;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Material icon styles for buttons */
+        .material-icons {
+            vertical-align: middle;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+                margin-bottom: 10px;
+            }
+
+            form {
+                width: 90%;
+            }
+
+            input[type="text"] {
+                height: 24px;
+            }
+
+
+
+            .buttons {
+                align-items: center;
+            }
+
+            .buttons button {
+                margin: 5px 0;
+            }
+        }
+
+        /* Extra small screen responsiveness (phones) */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            input[type="text"], button {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+
+            .buttons button {
+                font-size: 0.9rem;
+                padding: 12px 15px;
+            }
+        }
+        .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #ffffff;
+      border-top: 3px solid #a42eff;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 15px;
+      z-index: 100;
+    }
+
+    .icon {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #6a0dad;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transition: background 0.3s ease;
+    }
+    
+    .icon i {
+      font-size: 24px;
+      color: #6a0dad;
+      transition: color 0.3s ease;
+    }
+
+    .icon .label {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #6a0dad;
+      font-weight: bold;
+    }
+
+    /* Notification Badge */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #a42eff;
+      color: #ffffff;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+    }
+
+    /* Media Queries for Mobile */
+    @media (max-width: 768px) {
+      .bottom-bar {
+        height: 70px;
+        padding: 0 10px;
+      }
+
+      .icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .icon i {
+        font-size: 20px;
+      }
+
+      .icon .label {
+        font-size: 10px;
+      }
+    }
+    .button {
+      border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #a42eff;
+    }
+    .profile-pic-placeholder {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      box-shadow: 0 0 10px 5px rgba(162, 46, 255, 0.8); /* Purple glowing effect */
+
+    }
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'recomand' %}" class="icon">
+      <i class="fas fa-home"></i>
+      <div class="label">Home</div>
+    </a>
+    <a href="{% url 'users_list' %}" class="icon">
+        <i class="fas fa-users"></i>
+        <div class="label">Search</div>
+      </a>
+
+    <!-- Search Icon -->
+
+
+    
+
+    <!-- Photos Icon (Updated to Camera Icon) -->
+    <a href="{% url 'search_page' %}" class="icon">
+      <i class="fas fa-search"></i>
+      <div class="label">Network</div>
+    </a>
+
+    <!-- Inbox Icon (Updated to Message Icon) -->
+     {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}" class="icon">
+      <i class="fas fa-envelope"></i>
+      
+      <div class="notification-badge" id="notificationCount">{{ friend_requests_count }}</div>
+      <div class="label">Inbox</div>
+    </a>
+    {% endif %}
+    
+    <!-- Friends Icon 
+    <a href="#" class="icon">
+      <i class="fas fa-users"></i>
+      <div class="label">Friends</div>
+    </a>
+-->
+    <!-- Shorts Icon (Updated to Video Icon) -->
+
+    <!-- Profile Icon -->
+    <style>
+      .bottom-bar img {
+    top: 0px;
+      width: 25px;
+      height: 25px;
+      border-radius: 1000px;
+      object-fit: cover;
+
+  }
+   </style>
+  <a href="{% url 'profile' %}" class="icon">
+      {% if request.user.profile_pic %}
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if user.gender == "M" %}
+      <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder" class="profile-image">
+      {% else %}
+          <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder" class="profile-image">
+      {% endif %}
+  {% endif %}
+      <div class="label">Profile</div>
+    </a>
+
+
+
+  </div>
+    <h1>
+        <span>N</span><span>e</span><span>t</span><span>w</span><span>o</span><span>r</span><span>k</span>
+    </h1>
+    <form method="GET" action="{% url 'shorts_results' %}">
+        <input type="text" name="q" placeholder="Search by caption or category" required>
+        <button type="submit"><span class="material-icons">search</span></button>
+    </form>
+    <div class="buttons">
+        <a href="{% url 'photos_results' %}">
+        <button type="submit"><span class="material-icons">camera</span> Photos</button>
+        </a>
+        <a href="{% url 'flyer_list' %}">
+        <button type="submit"><span class="material-icons">description</span> Flyers</button>
+        </a>
+        <a href="{% url 'shorts_results' %}">
+        <button type="submit"><span class="material-icons">movie</span> Shorts</button>
+        </a>
+        <a href="{% url 'stories_list' %}">
+          <button type="submit"><span class="material-icons">photo_camera</span> Stories</button>
+          </a>
+        <a href="{% url 'post_results' %}">
+        <button type="submit"><span class="material-icons">shopping_cart</span> Post</button>
+        </a>
+        <a href="{% url 'profile' %}">
+        <button type="button"><span class="material-icons">account_circle</span> Profile</button></a>
+    </div>
+</body>
+</html>

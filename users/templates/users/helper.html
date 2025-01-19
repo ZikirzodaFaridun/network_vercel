@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network / helper</title>
+  <meta name="google-site-verification" content="Mc8LxsQoK-5uW934UJLarnvuiH3NMNkiFuhE047OMe4" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e2f; /* Dark background for cyber theme */
+      color: #ffffff; /* Light text color */
+      margin-bottom: 140px;
+    }
+
+    /* Header */
+    header {
+      background-color: #a42eff; /* Cyber purple */
+      color: #ffffff;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: center; /* Center the content horizontally */
+      align-items: center; /* Center the content vertically */
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    header nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+    }
+
+    header nav a:hover {
+      color: #e0aaff; /* Slightly lighter purple */
+      text-decoration: underline;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      border: 1px solid #5a189a; /* Dark purple border */
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 30%;
+      padding: 10px;
+      border-right: 1px solid #5a189a; /* Dark purple border */
+      background-color: #2a2a3d; /* Slightly lighter dark background */
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #a42eff; /* Cyber purple */
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .sidebar ul li a:hover {
+      color: #e0aaff; /* Hover effect */
+      text-decoration: underline;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 15px;
+
+    }
+
+    .main-content h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #a42eff;
+    }
+
+    .section-title {
+      background-color: #5a189a; /* Dark purple */
+      color: #ffffff;
+      padding: 5px 10px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .section-content {
+      border: 1px solid #5a189a; /* Border for sections */
+      padding: 10px;
+      font-size: 14px;
+      background-color: #2a2a3d;
+      color: #ffffff;
+    }
+
+    .person a {
+      color: #a42eff;
+      text-decoration: none;
+    }
+
+    .person a:hover {
+      color: #e0aaff; /* Hover effect */
+      text-decoration: underline;
+    }
+
+    .contact-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .contact-link a {
+      color: #a42eff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .contact-link a:hover {
+      color: #e0aaff;
+      text-decoration: underline;
+    }
+	.sidebar label {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: calc(100% - 10px);
+      padding: 5px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      border: 1px solid #5a189a;
+      background-color: #3e3e56;
+      color: #ffffff;
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff; /* White background for a clean look */
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0;
+      z-index: 1000;
+    }
+
+    .bottom-bar a {
+      text-decoration: none;
+      color: #555; /* Neutral text color */
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .bottom-bar a:hover {
+      color: #6a0dad; /* Purple hover color */
+    }
+
+    .bottom-bar a .icon {
+      font-size: 1.8rem;
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #ff3b3b;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .button {
+      border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .button2 {
+      border: 1px solid #58ff2e;
+      background-color: #212f1e;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <style>
+    /* Beautiful Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 8px; /* Adjust width of the scrollbar */
+        background-color: #1e1e2f; /* Light background for the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #a42eff; /* Default color for the scrollbar thumb */
+        border: 2px solid #a42eff; /* Border around the thumb */
+        transition: background-color 0.3s ease; /* Smooth transition for color change */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #a42eff; /* Darker color on hover */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent; /* Transparent background for the track */
+    }
+    a {
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'users_list' %}">
+      <span class="icon"><i class="fas fa-search"></i></span>
+    </a>
+    {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}">
+      <span class="icon"><i class="fas fa-envelope"></i></span>
+      <span class="badge">{{ friend_requests_count }}</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'chat_users_list' %}">
+      <span class="icon"><i class="fas fa-home"></i></span>
+    </a>
+    <a href="{% url 'delete_account' %}">
+        <span class="icon"><i class="fas fa-cog"></i></span>
+      </a>
+    <a href="{% url 'profile' %}">
+      <style>
+        .icon img {
+          width: 35px;
+          height: 35px;
+          border-radius: 100px;
+          margin-top: 3px;
+        }
+      </style>
+      <span class="icon">
+      {% if request.user.profile_pic %}
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if request.user.gender == "M" %}
+      <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder">
+      {% else %}
+          <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder">
+      {% endif %}
+  {% endif %}</span>
+    </a>
+  </div>
+  <header>
+    <h1>NETWORK SYSTEME</h1>
+  </header>
+
+  
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h2>[ About Network Helper systeme ]</h2>
+      <div class="section-title">Helper sections in all pages</div>
+      <div class="section-content">
+        The helper sections is in the all pages and you can be sure that you are dosen't confused
+       <div class="contact-link">
+        <button class="button" onclick="openPopup2()">Chats</button>
+        <button class="button" onclick="openPopup4()">Search</button>
+        <button class="button" onclick="openPopup()">Followers...</button>
+        <button class="button" onclick="openPopup6()">How to block user</button>
+
+        
+
+      </div>
+       <div class="section-title">Network helper systeme</div>
+        <div class="section-content">
+          <p class="person">Network helper systeme is the helper systeme to make "Network" more usefull and simple </p>
+          <div class="section-title">How to register to Network ?</div>
+        <div class="section-content">
+
+          To registering to the network you need to go to the some web-browser in your phone write this link in the search <a href="https://faridun01.pythonanywhere.com/">Network</a>
+          <p class="person"><a onclick="openPopup3()">Read more...</a></p>
+        </div>
+          <div class="section-title">How to make a chats - ???</div>
+          <div class="section-content">
+           To make a chats you need to go to your friend user profile click on message button and message something.
+            <p class="person"><a onclick="openPopup2()">Read more...</a></p>
+          </div>
+          
+        
+        <div class="section-title">How to search some users ?</div>
+        <div class="section-content">
+            For searching users you need to look to the down of page.You need to see a magnifying glass click to him and you go to the users list page.
+          <p class="person"><a onclick="openPopup4()">How to follow...</a></p>
+        </div>
+        <div class="section-title">Followers, Following, Friends - ???</div>
+        <div class="section-content">
+
+          Followers is that people what follow to you, Following it's people what you follow, and friends is that persons what you or him send a friend request.And if you or him accept YOU will be friends
+          <p class="person"><a onclick="openPopup()">Why we need this...</a></p>
+        </div>
+        <div class="section-title">How delete account ?</div>
+        <div class="section-content">
+            For deleting account look at the down of page you see settings icon on click you go to the settings page and click on delete account.
+          <p class="person"><a onclick="openPopup5()">Read more...</a></p>
+        </div>
+        <div class="section-title">How to block user ?</div>
+        <div class="section-content">
+            For blocking some user you need to message to this user when you message you see a button on the header of the chat page with icons block on click you block this user and you and him can't more send message.
+          <p class="person"><a onclick="openPopup6()">Read more...</a></p>
+        </div>
+        </div>
+      </div>
+
+      <div class="popup" id="myPopup">
+        <div class="popup-title">Why we need this</div>
+
+        <div class="popup-content">
+          <p>For exemple when someone go to your profile he see that you are friend with some his friends he talk with him and got that you are is very good man and after he will be friend with you and you make 1 friend more - (for exemple )</p>
+          <p class="person"><a onclick="closePopup()">Close</a></p>
+        </div> 
+      </div>
+      <div class="popup" id="myPopup5">
+        <div class="popup-title">How to delete account</div>
+
+        <div class="popup-content">
+          <p>For deleting account you need to go to the settings page you need to see the Delete account section.But i m gona warn you if you delete your account you can't more login with this account and connect with him.</p>
+          <p class="person"><a onclick="closePopup5()">Close</a></p>
+        </div> 
+      </div>
+      <div class="popup" id="myPopup2">
+        <div class="popup-title">How to make a chats ?</div>
+
+        <div class="popup-content">
+            To make a chat you need to go to some your friend profile. <br> 1) And click on button message. <br>2) After message something.<br>3)After go to the home page and you see that you add a chats <br>Questions - ? <br>What if user profile haven't message button ? <br>It's mean that user account is close or only for friends.For messaging you need to send request and wait when user accepted you.
+          <p class="person"><a onclick="closePopup2()">Close</a></p>
+        </div>
+      </div>
+      <div class="popup" id="myPopup3">
+        <div class="popup-title">How to register / more info</div>
+
+        <div class="popup-content">
+            To registering you need to go to the register page and register there.After registering you will see getting started page this is about the founder of the network.It's mean you register.Only scroll down and you see button home on click you go to the profile page.
+          <p class="person"><a onclick="closePopup3()">Close</a></p>
+        </div>
+      </div>
+      <div class="popup" id="myPopup4">
+        <div class="popup-title">How to follow user in users list ?</div>
+
+        <div class="popup-content">
+            For follow user you need to focus on the user what you need to follow and click on view profile on click you see buttons on click follow you follo.If button follow is dosen't exist it's mean that his account is for friends if i m right there need too be button send friend request.Click and if he accept you you are will be friends
+            <p class="person"><a onclick="closePopup4()">Close</a></p>
+        </div>
+      </div>
+      <div class="popup" id="myPopup6">
+        <div class="popup-title">How to block user ?</div>
+
+        <div class="popup-content">
+            For blocking some user you need to message to this user when you message you see a button on the header of the chat page with icons block on click you block this user and you and him can't more send message. <br>But the some one ask how to see the blockes users.You need to go to the settings page and click on blocked users.
+            <p class="person"><a onclick="closePopup6()">Close</a></p>
+        </div>
+      </div>
+      <style>
+        /* The popup container */
+        .popup {
+            display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+      justify-content: center;
+      flex-direction: column; /* Arrange items in a column */
+        }
+    
+        /* The popup content */
+        .popup-content {
+            border: 1px solid #5a189a; /* Border for sections */
+      padding: 10px;
+      font-size: 14px;
+      background-color: #2a2a3d;
+      color: #ffffff;
+      margin-left: 20px;
+      margin-right: 20px;
+
+        }
+        .popup-title {
+            background-color: #5a189a; /* Dark purple */
+      color: #ffffff;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+        }
+    
+        /* The close button */
+        .close-btn {
+            border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+        }
+      </style>
+      <div class="contact-link">
+        <a href="{% url 'get_started' %}"><button class="button">Founders</button></a>
+        <a href="{% url 'terms' %}"><button class="button2">Terms of use</button></a>
+
+      </div>
+
+      <div class="contact-link">
+        <a href="{% url 'person_detail' name='Zikirzoda Faridun' %}">Product by Zikirzoda Faridun 2025-2026 &copysr;</a>
+      </div>
+      <div class="contact-link">
+        <a href="{% url 'person_detail' name='Zikirzoda Faridun' %}">Network &copy; 2025</a>
+
+      </div>
+      <script>
+        // 1
+        function openPopup() {
+          document.getElementById("myPopup").style.display = "flex";
+        }
+    
+        function closePopup() {
+          document.getElementById("myPopup").style.display = "none";
+        }
+        // 2
+        function openPopup2() {
+          document.getElementById("myPopup2").style.display = "flex";
+        }
+    
+        function closePopup2() {
+          document.getElementById("myPopup2").style.display = "none";
+        }
+        // 3
+        function openPopup3() {
+          document.getElementById("myPopup3").style.display = "flex";
+        }
+    
+        function closePopup3() {
+          document.getElementById("myPopup3").style.display = "none";
+        }
+       // 4
+       function openPopup4() {
+          document.getElementById("myPopup4").style.display = "flex";
+        }
+    
+        function closePopup4() {
+          document.getElementById("myPopup4").style.display = "none";
+        }
+        // 5
+       function openPopup5() {
+          document.getElementById("myPopup5").style.display = "flex";
+        }
+    
+        function closePopup5() {
+          document.getElementById("myPopup5").style.display = "none";
+        }
+        // 6
+       function openPopup6() {
+          document.getElementById("myPopup6").style.display = "flex";
+        }
+    
+        function closePopup6() {
+          document.getElementById("myPopup6").style.display = "none";
+        }
+      </script>
+    </div>
+  </div>
+</body>
+</html>

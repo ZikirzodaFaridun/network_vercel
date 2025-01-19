@@ -1,0 +1,340 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1d1e26, #302942);
+  color: #ffffff;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 140px;
+}
+
+.photo-post-box {
+  width: 100%;
+  background: #27293d;
+  overflow: hidden;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #5d54a4;
+}
+
+.photo-post-box .post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+
+.photo-post-box .content {
+  padding: 0px 20px;
+}
+
+.photo-post-box .content p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #b0a8cf;
+}
+
+.photo-post-box .actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #1d1e26;
+  border-top: 1px solid #5d54a4;
+}
+
+.photo-post-box .actions button {
+  border: none;
+  background: none;
+  color: #d8b4ff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.photo-post-box .actions .whatsup {
+  border: none;
+  background: none;
+  color: #65e45a;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+
+.photo-post-box .actions .whatsup:hover {
+    color: #3cff00;
+}
+
+
+.photo-post-box .actions .like-btn {
+  border: none;
+  background: none;
+  color: #ffb732;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+
+.photo-post-box .actions .like-btn:hover {
+    color: #f0da94;
+}
+
+
+.photo-post-box .actions button:hover {
+  color: #ff58e7;
+}
+
+.photo-post-box .actions button i {
+  font-size: 18px;
+}
+
+.photo-post-box .comments {
+  padding: 15px 20px;
+  background: #1d1e26;
+  border-top: 1px solid #5d54a4;
+  display: none; /* Initially hidden */
+}
+
+.photo-post-box .comments .comment {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #d8b4ff;
+}
+
+.photo-post-box .comments input {
+  width: 68%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #5d54a4;
+  background: #27293d;
+  color: #d8b4ff;
+}
+
+.photo-post-box .comments button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #5d54a4;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.photo-post-box .comments button:hover {
+  background: #ff58e7;
+}
+
+.profile-pic-placeholder {
+  padding: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #ffffff;
+  border-top: 3px solid #a42eff;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #6a0dad;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+.icon:hover {
+  background: #a42eff;
+}
+
+.icon i {
+  font-size: 24px;
+  color: #6a0dad;
+  transition: color 0.3s ease;
+}
+
+.icon:hover i {
+  color: #fff;
+}
+
+.icon .label {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6a0dad;
+  font-weight: bold;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #a42eff;
+  color: #ffffff;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .bottom-bar {
+    height: 70px;
+    padding: 0 10px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon i {
+    font-size: 20px;
+  }
+
+  .icon .label {
+    font-size: 10px;
+  }
+}
+.main-content {
+  flex: 10;
+  padding: 15px;
+}
+
+.main-content h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #a42eff;
+}
+video {
+    width: 100%;
+    max-height: 300px;
+    margin-top: 10px;
+    object-fit: cover;
+}
+.icon-button {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background-color: #a200ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures images fit within the circle */
+}
+
+.icon-button .plus {
+  color: #fff;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.profile-pic-stories {
+  width: 100%; /* Make the image fill the icon */
+  height: 100%; /* Keep it proportional */
+  object-fit: cover; /* Ensures the image doesn't distort */
+  border-radius: 50%; /* Makes the image circular */
+}
+
+.followers {
+  width: 100%;
+  background: #302942;
+  display: flex;
+  flex-wrap: nowrap; /* Keep all items in a single row */
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center; /* Centers items vertically */
+  padding: 10px;
+  gap: 10px; /* Space between items */
+  overflow-x: auto; /* Add horizontal scroll if needed */
+}
+
+/* Dynamically adjust icon size when there are many items */
+.followers .icon-button {
+  flex: 0 0 calc(100% / 10); /* Adjust based on the number of items */
+  max-width: 50px; /* Limit the maximum size */
+  max-height: 50px;
+}
+
+/* Media query to handle smaller screens */
+@media (max-width: 768px) {
+  .followers .icon-button {
+    flex: 0 0 calc(100% / 5); /* Smaller icons on smaller screens */
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  .icon-button .plus {
+    font-size: 40px; /* Adjust font size for smaller icons */
+  }
+}
+/* Container for the button */
+.top-right-button {
+  position: fixed; /* Keeps the button fixed at the top-right */
+  top: 10px; /* Distance from the top of the page */
+  right: 10px; /* Distance from the right of the page */
+  z-index: 1000; /* Ensures the button stays on top of other elements */
+}
+
+/* Button styling */
+.top-right-button button {
+  padding: 10px 20px;
+  border: 1px solid #a200ff; /* Cyber purple */
+  background-color: #1d1e26;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Hover effect */
+.top-right-button button:hover {
+  background-color: #8a00d4;
+  transform: scale(1.1); /* Slightly enlarge the button */
+}

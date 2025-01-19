@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+  <style>
+    :root {
+      --bg-color: #121212;
+      --text-color: #fff;
+      --container-color: #1e1e1e;
+      --hover-color: #2a2a2a;
+      --border-color: #333;
+      --header-color: #a42eff; /* Default violet */
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .chat-container {
+      margin: auto;
+      background-color: var(--container-color);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .header {
+      background-color: var(--header-color);
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      transition: background-color 0.3s;
+    }
+    .header .title {
+      font-size: 1.5rem;
+    }
+    .header .icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header .icons i {
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .header .icons i:hover {
+      color: var(--hover-color);
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .theme-toggle:hover {
+      color: var(--hover-color);
+    }
+    .search-bar {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .search-bar input {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 1rem;
+      outline: none;
+      background-color: var(--container-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 120px;
+    }
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+    }
+    .chat-item:hover {
+      background-color: var(--hover-color);
+    }
+    .chat-item img {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    .chat-details {
+      flex: 1;
+    }
+    .chat-details h4 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .chat-details p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: #aaa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+            word-break: break-word; /* Forces breaks for long, unbroken text */
+            overflow: hidden; 
+}
+
+    .chat-meta {
+      text-align: right;
+    }
+    .chat-meta span {
+      display: block;
+      font-size: 0.8rem;
+      color: #888;
+    }
+    .chat-meta .unread {
+      background-color: var(--header-color);
+      color: white;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    .status {
+      position: relative;
+      display: inline-block;
+    }
+    .status::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      margin-right: 15px;
+      margin-bottom: 5px;
+      border: 2px solid var(--container-color);
+      border-radius: 50%;
+    }
+    .status.online::after {
+      background-color: #4caf50;
+    }
+    .status.offline::after {
+      background-color: #ff0000;
+    }
+    @media screen and (max-width: 768px) {
+      .chat-item img {
+        width: 40px;
+        height: 40px;
+      }
+      .chat-details h4 {
+        font-size: 0.9rem;
+      }
+      .chat-details p {
+        font-size: 0.8rem;
+      }
+    }
+    .use {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    .chat-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .chat-list::-webkit-scrollbar-thumb {
+      background-color: var(--header-color);
+    }
+    .chat-list::-webkit-scrollbar-track {
+      background-color: var(--bg-color);
+    }
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    .adds {
+      background-color: var(--container-color);
+      border:1px solid var(--border-color);
+      border-radius: 100px;
+      max-width: 70px;
+      max-height: 40px;
+      padding: 10px;
+      margin: 10px;
+      margin-right: 1px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out
+
+    }
+    .show-friends {
+      background-color: var(--container-color);
+      border:1px solid var(--border-color);
+      border-radius: 100px;
+      max-width: 70px;
+      max-height: 40px;
+      padding: 10px;
+      margin: 10px;
+      margin-right: 1px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff; /* White background for a clean look */
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0;
+      z-index: 1000;
+    }
+
+    .bottom-bar a {
+      text-decoration: none;
+      color: #555; /* Neutral text color */
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .bottom-bar a:hover {
+      color: #6a0dad; /* Purple hover color */
+    }
+
+    .bottom-bar a .icon {
+      font-size: 1.8rem;
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #ff3b3b;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .groups {
+      background-color: var(--container-color);
+      border:1px solid var(--border-color);
+      border-radius: 100px;
+      max-width: 70px;
+      max-height: 40px;
+      padding: 10px;
+      margin: 10px;
+      margin-right: 1px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out
+    }
+    .adds:hover, .show-friends:hover, .groups:hover {
+      background-color: var(--border-color);
+    }
+    a {
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'users_list' %}">
+      <span class="icon"><i class="fas fa-search"></i></span>
+    </a>
+    {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}">
+      <span class="icon"><i class="fas fa-envelope"></i></span>
+      <span class="badge">{{ friend_requests_count }}</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'chat_users_list' %}">
+      <span class="icon"><i class="fas fa-home"></i></span>
+    </a>
+    <a href="{% url 'delete_account' %}">
+      <span class="icon"><i class="fas fa-cog"></i></span>
+    </a>
+    <a href="{% url 'profile' %}">
+      <style>
+        .icon img {
+          width: 35px;
+          height: 35px;
+          border-radius: 100px;
+          margin-top: 3px;
+        }
+      </style>
+      <span class="icon">
+      {% if request.user.profile_pic %}
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if request.user.gender == "M" %}
+      <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder">
+      {% else %}
+          <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder">
+      {% endif %}
+  {% endif %}</span>
+    </a>
+  </div>
+
+  <div class="chat-container">
+    <div class="header">
+      <span class="title">Your Network</span>
+      <div class="icons">
+        <a href="{% url 'chat_with_user' request.user.username %}">
+        <i class="fas fa-sticky-note"></i>
+      </a>
+      <a href="{% url 'edit_profile' %}">
+
+        <i class="fas fa-cog"></i>
+      </a>
+      <a href="{% url 'groups' %}">
+        <i class="fas fa-user-friends"></i>
+      </a>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-adjust"></i>
+        </button>
+      </div>
+    </div>
+    <form method="get" action="{% url 'chat_users_list' %}">
+
+    <div class="search-bar">
+      <input type="text" name="search" placeholder="Search users or chats..." value="{{ search_query }}">
+    </div>
+  </form>
+  <div>
+    <button class="adds" id="unreads-btn">Unreads</button>
+    <button class="show-friends">Friends</button>
+    <a href="{% url 'groups' %}">
+    <button class="groups">Groups</button>
+  </a>
+    
+  </div>
+
+    <div class="chat-list">
+      {% for user in friend_users_with_unread_messages %}
+      {% if user.user != request.user %}
+      <a class="use" href="{% url 'chat_with_user' user.user.username %}">
+
+      <div class="chat-item">
+        <div class="status {% if user.user.is_online %}
+        online
+        {% else %}
+        offline
+        {% endif %}">
+        {% if user.user.profile_pic %}
+        <img src="{{ user.user.profile_pic.url }}" alt="Profile Picture" >
+    {% else %}
+        {% if user.user.gender == "M" %}
+            <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" >
+        {% else %}
+            <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder">
+        {% endif %}
+    {% endif %}
+        </div>
+        <div class="chat-details">
+          {% if user.user in request.user.blocked_users.all %}
+          <h4>{{ user.user.name }} {{ user.user.surname }} <i class="fas fa-ban" style="color: red;"></i></h4>
+          {% elif request.user in user.user.blocked_users.all %}
+          <h4 style="color: rgb(255, 84, 84);">{{ user.user.name }} {{ user.user.surname }} - Blocked you</h4>
+          {% else %}
+          <h4>{{ user.user.name }} {{ user.user.surname }}</h4>
+
+          {% endif %}
+          <p>{% if user.unread_messages %}
+            {{ user.unread_messages.0.content }}
+            {% else %}
+        {% if user.last_message.sender == request.user %}
+        <strong>You:</strong> {{ user.last_message.content }}
+        {% else %}
+        {{ user.last_message.content }}
+        <i class="fas fa-check-circle"></i>
+        {% endif %}</p>
+        {% endif %}
+
+        </div>
+        <div class="chat-meta">
+          <span>{% if user.unread_messages %}
+            {{ user.unread_messages.0.timestamp|date:"H:i" }}
+{% else %}
+        {% if user.last_message %}{{ user.last_message.timestamp|date:"H:i" }}
+        {% endif %}
+        {% endif %}
+      </span>
+        {% if user.unread_messages.count != 0 %}
+          <span class="unread">{{ user.unread_messages.count }}</span>
+          {% endif %}
+        </div>
+        {% if user.user in request.user.friends.all %}
+        <div class="friend"></div>
+      {% endif %}
+      </div>
+    </a>
+
+      {% endif %}
+      {% empty %}
+      {% if search_query %}
+      <a href="{% url 'users_list' %}">
+        <div class="chat-item">
+        
+              <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" >
+          <div class="chat-details">
+            <h4>Network</h4>
+            <p>No one user find with this request.</p>
+          </div>
+        </div>
+      </a>
+      {% else %}
+      <a href="{% url 'users_list' %}">
+
+        <div class="chat-item">
+        
+              <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" >
+          <div class="chat-details">
+            <h4>Network</h4>
+            <p>You don't have any chats.Click to message to someone !</p>
+          </div>
+        </div>
+      </a>
+      {% endif %}
+      {% endfor %}
+      <div class="chat-item">
+        
+    <div class="chat-details">
+      <h4>Network</h4>
+      <p><i class="fas fa-lock"></i> "Your chats are fully encrypted, private, <br> and secure—nobody but you can access or read them. <br> Your <a href="{% url 'terms' %}">privacy</a> is guaranteed!</p>
+    </div>
+  </div>
+    </div>
+  </div>
+  <script>
+    let currentTheme = localStorage.getItem('theme') || 'dark'; // Default to 'dark' if not set in localStorage
+  
+    // Set the theme on page load based on the saved theme
+    const themes = {
+      violet: {
+        '--bg-color': '#121212',
+        '--text-color': '#fff',
+        '--container-color': '#1e1e1e',
+        '--hover-color': '#2a2a2a',
+        '--border-color': '#333',
+        '--header-color': '#a42eff',
+      },
+      light: {
+        '--bg-color': '#ffffff',
+        '--text-color': '#000',
+        '--container-color': '#f9f9f9',
+        '--hover-color': '#f1f1f1',
+        '--border-color': '#ddd',
+        '--header-color': '#212121',
+      },
+      dark: {
+        '--bg-color': '#121212',
+        '--text-color': '#fff',
+        '--container-color': '#1e1e1e',
+        '--hover-color': '#2a2a2a',
+        '--border-color': '#333',
+        '--header-color': '#212121',
+      },
+      green: {
+        '--bg-color': '#ffffff',
+        '--text-color': '#333',
+        '--container-color': '#eaf7e5',
+        '--hover-color': '#c6f2b2',
+        '--border-color': '#88d49f',
+        '--header-color': '#4caf50',
+      },
+      orange: {
+        '--bg-color': '#ffffff',
+        '--text-color': '#333',
+        '--container-color': '#fff4e5',
+        '--hover-color': '#ffcc99',
+        '--border-color': '#ff9966',
+        '--header-color': '#ff9800',
+      },
+      blue: {
+        '--bg-color': '#ffffff',
+        '--text-color': '#333',
+        '--container-color': '#e0f7fa',
+        '--hover-color': '#80deea',
+        '--border-color': '#4dd0e1',
+        '--header-color': '#2196f3',
+      },
+    };
+  
+    const root = document.documentElement;
+  
+    function applyTheme() {
+      const selectedTheme = themes[currentTheme];
+      for (const [key, value] of Object.entries(selectedTheme)) {
+        root.style.setProperty(key, value);
+      }
+    }
+  
+    // Apply the default or saved theme on page load
+    applyTheme();
+  
+    function toggleTheme() {
+      // Toggle between themes
+      if (currentTheme === 'violet') currentTheme = 'light';
+      else if (currentTheme === 'light') currentTheme = 'dark';
+      else if (currentTheme === 'dark') currentTheme = 'green';
+      else if (currentTheme === 'green') currentTheme = 'orange';
+      else if (currentTheme === 'orange') currentTheme = 'blue';
+      else currentTheme = 'violet';
+  
+      // Save the selected theme to localStorage
+      localStorage.setItem('theme', currentTheme);
+  
+      // Apply the new theme
+      applyTheme();
+    }
+    
+  </script>
+  <script>
+    let showUnreadOnly = false;
+  
+    // Toggle between showing unread and all chats
+    function toggleChats() {
+      const chatItems = document.querySelectorAll('.chat-item');
+  
+      if (showUnreadOnly) {
+        // Show all chats
+        chatItems.forEach(item => {
+          item.style.display = 'flex';
+        });
+        document.querySelector('.adds').textContent = 'Unreads';
+      } else {
+        // Show only unread chats
+        chatItems.forEach(item => {
+          const unreadBadge = item.querySelector('.unread');
+          if (unreadBadge) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        document.querySelector('.adds').textContent = 'Chats';
+      }
+  
+      showUnreadOnly = !showUnreadOnly;
+    }
+  
+    // Show only friends' chats
+    function showFriendsChats() {
+  const chatItems = document.querySelectorAll('.chat-item');
+
+  chatItems.forEach(item => {
+    const friendBadge = item.querySelector('.friend');
+    if (friendBadge) {
+      item.style.display = 'flex'; // Show chats from friends
+    } else {
+      item.style.display = 'none'; // Hide other chats
+    }
+  });
+
+  // Optional: Change button text or styling after showing friends' chats
+  const button = document.querySelector('.show-friends');
+  button.textContent = 'Chats'; // Change text to indicate toggle
+  button.removeEventListener('click', showFriendsChats);
+  button.addEventListener('click', showAllChats); // Add event to show all chats
+}
+
+function showAllChats() {
+  const chatItems = document.querySelectorAll('.chat-item');
+
+  chatItems.forEach(item => {
+    item.style.display = 'flex'; // Show all chats
+  });
+
+  // Optional: Reset button text or styling
+  const button = document.querySelector('.show-friends');
+  button.textContent = 'Friends'; // Change text back
+  button.removeEventListener('click', showAllChats);
+  button.addEventListener('click', showFriendsChats); // Add event to show friends' chats
+}
+
+// Attach the initial function to the button
+
+
+// Attach the function to the button with class "friends-button"
+
+  
+    // Attach the functions to buttons
+    document.querySelector('.adds').addEventListener('click', toggleChats);
+    document.querySelector('.show-friends').addEventListener('click', showFriendsChats);
+  </script>
+  
+  
+  
+</body>
+</html>

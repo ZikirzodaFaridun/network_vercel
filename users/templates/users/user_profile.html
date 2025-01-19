@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            margin: 0;
+            margin-bottom: 14px;
+        }
+
+        .profile-container {
+            width: 100%;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-image {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            object-fit: cover;
+            margin-top: -70px;
+
+            margin-right: 20px;
+            background: url('https://via.placeholder.com/80') center/cover no-repeat;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .profile-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f9f9f9;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .profile-stats div {
+            flex: 1;
+        }
+
+        .profile-stats div span {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .profile-stats span {
+            cursor: pointer;
+        }
+
+        .profile-stats div small {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .posts {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+            background: #f3f4f6;
+        }
+
+        .post {
+            background: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .post h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                width: 100%;
+                height: 100vh;
+            }
+            .profile-image {
+            width: 110px;
+            height: 110px;
+        }
+            .profile-header {
+                flex-direction: row;
+                padding: 20px;
+            }
+
+            .profile-info h2 {
+                font-size: 18px;
+            }
+
+            .profile-info p {
+                font-size: 13px;
+            }
+
+            .profile-stats div span {
+                font-size: 16px;
+            }
+
+            .profile-stats div small {
+                font-size: 11px;
+            }
+        }
+        button {
+            padding: 10px 25px;
+            background-color: var(--container-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+          background-color: var(--border-color);
+        }
+
+        button:active {
+          background-color: var(--border-color);
+        }
+    .button {
+      border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .email {
+        color: black;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .manual {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        object-fit: cover;
+        margin-right: 14px;
+        border: 2px solid #ffffff;
+        margin-left: -30px;
+    }
+    .manuale {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-left: 30px;
+    }
+    .manuale a {
+        color: #666;
+        text-decoration: none;
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff; /* White background for a clean look */
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0;
+      z-index: 1000;
+    }
+
+    .bottom-bar a {
+      text-decoration: none;
+      color: #555; /* Neutral text color */
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .bottom-bar a:hover {
+      color: #6a0dad; /* Purple hover color */
+    }
+
+    .bottom-bar a .icon {
+      font-size: 1.8rem;
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #ff3b3b;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'users_list' %}">
+      <span class="icon"><i class="fas fa-search"></i></span>
+    </a>
+    {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}">
+      <span class="icon"><i class="fas fa-envelope"></i></span>
+      <span class="badge">{{ friend_requests_count }}</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'chat_users_list' %}">
+      <span class="icon"><i class="fas fa-home"></i></span>
+    </a>
+    <a href="{% url 'delete_account' %}">
+        <span class="icon"><i class="fas fa-cog"></i></span>
+      </a>
+    <a href="{% url 'profile' %}">
+      <style>
+        .icon img {
+          width: 35px;
+          height: 35px;
+          border-radius: 100px;
+          margin-top: 3px;
+        }
+      </style>
+      <span class="icon">
+      {% if request.user.profile_pic %}
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if request.user.gender == "M" %}
+      <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder">
+      {% else %}
+          <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder">
+      {% endif %}
+  {% endif %}</span>
+    </a>
+  </div>
+    
+    <!-- Friends Icon 
+    <a href="#" class="icon">
+      <i class="fas fa-users"></i>
+      <div class="label">Friends</div>
+    </a>
+-->
+    <!-- Shorts Icon (Updated to Video Icon) -->
+
+    <!-- Profile Icon -->
+     <style>
+/* Photo post list container */
+.photo-post-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+}
+
+/* Individual photo post styling */
+.photo-post {
+    flex: 1 1 calc(33.33% - 10px); /* 3 items per row with gap */
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Image styling */
+.photo-post img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect on images */
+.photo-post img:hover {
+    transform: scale(1.05);
+}.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    z-index: 1000;
+    overflow: auto; /* Allow scrolling */
+}
+
+/* Popup Content */
+.popup-content {
+    position: relative;
+    margin: 10% auto;
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    max-width: 900px;
+    max-height: 90%;
+    overflow-y: auto; /* Allow vertical scrolling */
+    border-radius: 8px;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-btn i {
+    color: #333;
+}
+
+/* Popup Post Styles */
+.popup-post {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+/* Profile Picture */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+}
+/* Post Image */
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Caption */
+.caption-text {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Post Actions */
+.post-actions {
+    margin-top: 10px;
+}
+
+/* Like Button */
+.like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-btn i {
+    margin-right: 5px;
+}
+
+/* Comment Button */
+.comment-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+}
+/* Post actions (like and comment buttons) */
+.post-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.like-btn, .comment-btn {
+    padding: 8px 12px;
+    border: none;
+    background-color: #3897f0;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.like-btn:hover, .comment-btn:hover {
+    background-color: #2a7bf0;
+}
+.button3 {
+    background: transparent;
+    margin-top: 5px;
+    font-size: 20px;
+    position: fixed;
+    font-weight: 900;
+}
+.button3:hover {
+    background: transparent;
+    margin-top: 5px;
+    font-size: 20px;
+    font-weight: 900;
+}
+.note {
+    background-color: rgba(96, 88, 104, 0.8);
+    color: white;
+    position: absolute;
+    top: 90px;
+    left: 90px;
+    padding: 8px;
+    font-weight: 600;
+    font-family: sans-serif;
+    border-radius: 50px;
+    border-bottom-left-radius: 20px;
+
+}
+.note2 {
+    background-color: rgba(96, 88, 104, 0.8);
+    color: white;
+    position: absolute;
+    top: 145px;
+    left: 65px;
+    padding: 4px;
+    font-weight: 600;
+    font-family: sans-serif;
+    border-radius: 50px;
+
+}
+.note3 {
+    background-color: rgba(96, 88, 104, 0.8);
+    color: white;
+    position: absolute;
+    top: 130px;
+    left: 75px;
+    padding: 6px;
+    font-weight: 600;
+    font-family: sans-serif;
+    border-radius: 50px;
+
+}
+.link p {
+    color: var(--border-color);
+}
+     </style>
+     <style>
+        /* Beautiful Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px; /* Adjust width of the scrollbar */
+            background-color: #1e1e2f; /* Light background for the track */
+        }
+    
+        ::-webkit-scrollbar-thumb {
+            background-color: #a42eff; /* Default color for the scrollbar thumb */
+            border: 2px solid #a42eff; /* Border around the thumb */
+            transition: background-color 0.3s ease; /* Smooth transition for color change */
+        }
+    
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #a42eff; /* Darker color on hover */
+        }
+    
+        ::-webkit-scrollbar-track {
+            background: transparent; /* Transparent background for the track */
+        }
+        .profile-image-online {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            object-fit: cover;
+            margin-top: -70px;
+            margin-right: 20px;
+        }
+        .profile-image-offline {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            object-fit: cover;
+            margin-top: -70px;
+            margin-right: 20px;
+      
+    }
+            .online {
+      position: absolute;
+      background: #0abb54;
+      color: #ffffff;
+      border:5px solid white;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px;
+      border-radius: 100px;
+      margin-top: 15px;
+      margin-left: 100px;
+      
+    }
+    .offline {
+        position: absolute;
+      background: #bb0a0a;
+      color: #ffffff;
+      border:5px solid white;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px;
+      border-radius: 100px;
+      margin-top: 15px;
+      margin-left: 100px;
+    }
+    .button3{
+        padding: 10px 25px;
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+    }
+    </style>
+  <script>
+    // JavaScript function to go back to the previous page
+    function goBack() {
+        window.history.back();
+    }
+</script>
+  {% if user != request.user %}
+  <button class="button3" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+{% endif %}
+  <div class="profile-container">
+        {% if user.cover_pic %}
+  <img src="{{ user.cover_pic.url }}" class="cover-image" alt="">
+  {% else %}
+  {% if user.gender == "M" %}
+  <img src="https://i.redd.it/axjjd2nyj1kb1.gif" class="cover-image" alt="">
+{% else %}
+<img src="https://imgvisuals.com/cdn/shop/products/animated-lo-fi-background-late-night-homework-676873.gif?v=1697059026" class="cover-image" alt="">
+{% endif %}
+      
+  {% endif %}
+  
+        <div class="profile-header">
+            {% if request.user not in user.blocked_users.all %}
+
+            <div class="note">
+                {% if user not in request.user.blocked_users.all %}
+
+                {{ user.get_status_display }}
+                {% else %}
+                Blocked 
+                {% endif %}
+            </div>
+            <div class="note2"></div>
+            <div class="note3"></div>
+            {% endif %}
+            {% if request.user not in user.blocked_users.all %}
+            {% if user not in request.user.blocked_users.all %}
+
+            {% if user.profile_pic %}
+              <img src="{{ user.profile_pic.url }}" alt="Profile Picture" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+          {% else %}
+          {% if user.gender == "M" %}
+          <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% else %}
+          <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% endif %}
+          {% endif %}
+          {% else %}
+          {% if user.gender == "M" %}
+          <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% else %}
+          <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% endif %}
+          {% endif %}
+          {% else %}
+          {% if user.gender == "M" %}
+          <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% else %}
+          <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+      {% endif %}
+          {% endif %}
+
+
+          {% if request.user not in user.blocked_users.all %}
+          {% if user not in request.user.blocked_users.all %}
+
+          <div class="{% if user.is_online %}
+          online
+          {% else %}
+          offline
+          {% endif %}">
+          </div>
+          {% endif %}
+          {% endif %}
+            <div class="profile-info">
+                {% if user.name %}
+                <h2>{{ user.name }} {{ user.surname }}</h2>
+                {% else %}
+                <h2>{{ user.username }}</h2>
+                {% endif %}
+                <div class="link">
+                <p>@{{ user.username }}</p></div>
+                <p>{% if user.friends in request.user.friends.all %} {{ friend.username }}{% endif %}</p>
+                <script>
+                    function updateOnlineStatus() {
+                        if (navigator.onLine) {
+                            // Send an AJAX request to update the user's online status
+                            fetch("{% url 'update_online_status' %}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRFToken": "{{ csrf_token }}",
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({})
+                            }).then(response => {
+                                if (response.ok) {
+                                    console.log("Online status updated.");
+                                } else {
+                                    console.error("Failed to update online status.");
+                                }
+                            });
+                        }
+                    }
+                
+                    // Periodically check the user's connection
+                    setInterval(updateOnlineStatus, 1000); // Every 5 seconds
+                </script>
+    
+                <p>Joined in {{ user.date_joined |timesince  }}</p>
+                                <!--
+{% if user != request.user %}
+                <p class="manuale">
+                    {% for follow in user.followers.all %}
+                    {% if user.follow.follower == request.user.follow.follower %}
+                    {% if follow.follower.profile_pic %}
+                    <a href="{% url 'user_profile' follow.follower.username %}">
+                    <img src="{{ follow.follower.profile_pic.url }}" class="manual" alt=""></a>
+                    {% else %}
+                    {% if follow.follower.gender == 'M' %} 
+                    <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder" class="manual">
+                    {% else %}
+                        <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder" class="manual">
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for follow in user.followers.all %}
+                    {% if user.follow.follower == request.user.follow.follower %}
+                    <a href="{% url 'user_profile' follow.follower.username %}">-<span> {{ follow.follower.username }}</span></a>
+                    {% endif %}
+                    {% endfor %}</p>
+                    {% endif %}-->
+            </div>
+        </div>
+        <div class="profile-stats">
+            {% if user.accounts_type == 'O' %}
+            <div>
+                <span onclick="followers()">{{ user.followers.count }}</span>
+                <small>Followers</small>
+            </div>
+            <div>
+                <span onclick="following()">{{ user.following.count }}</span>
+                <small>Following</small>
+            </div>
+            <div>
+                <span onclick="friends()">{{ user.friends.count }}</span>
+                <small>Friends</small>
+            </div>
+            {% elif user.accounts_type == 'C' %}
+            <div>
+                <span onclick="friends()">{{ user.friends.count }}</span>
+                <small>Followers</small>
+            </div>
+            {% elif user.accounts_type == 'F' %}
+            <div>
+                <span onclick="friends()">{{ user.friends.count }}</span>
+                <small>Friends</small>
+            </div>
+            {% endif %}
+        </div>
+        
+    
+        <!-- Popup Modal -->
+
+        <script>
+            function followers(){
+                    window.location.href = "{% url 'show_followers' user.username %}"
+            }
+            function following(){
+                    window.location.href = "{% url 'show_following' user.username %}"
+            }
+            function friends(){
+                    window.location.href = "{% url 'show_friends' user.username %}"
+            }
+        </script>
+        {% if user.music %}
+        <audio id="background-music" autoplay loop>
+            <source src="{{ user.music.url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}
+        <div class="profile-stats">
+            {% if user.accounts_type == 'O' %}
+            <!--- This is if Close account -->
+            
+            {% if request.user.is_authenticated and user != request.user %}
+            {% if request.user != profile_user %}
+    {% if is_following %}
+        <!-- Unfollow Button -->
+        <form action="{% url 'unfollow_user' user.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="edit-profile-btn">Unfollow</button>
+        </form>
+    {% else %}
+        <!-- Follow Button -->
+        <form action="{% url 'follow_user' user.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="edit-profile-btn">Follow</button>
+        </form>
+    {% endif %}
+{% endif %}
+{% endif %}
+{% if user.accounts_type == 'O' %}
+{% if user == request.user %}
+    <a href="{% url 'edit_profile' %}">
+      <button class="edit-profile-btn">Edit</button></a>
+      <a href="{% url 'inbox' %}"><button class="edit-profile-btn">Inbox ( {{ friend_requests_count }} )</button></a>
+      <a href="{% url 'chat_users_list' %}"><button class="edit-profile-btn">Chats</button></a>
+{% else %}
+<a href="{% url 'chat_with_user' user.username %}"><button class="edit-profile-btn">Message</button></a>
+{% endif %}
+{% endif %}
+{% if request.user.is_authenticated and user != request.user %}
+{% if user in request.user.friends.all %}
+    <button disabled class="edit-profile-btn"><i class="fas fa-user-check"></i></button>
+{% elif sent_request %}
+    <button disabled class="edit-profile-btn"><i class="fas fa-spinner fa-spin"></i>
+    </button>
+{% elif received_request %}
+    
+    <form action="{% url 'accept_friend_request' received_request.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="edit-profile-btn"><i class="fas fa-user-check"></i></button>
+    </form>
+    <form action="{% url 'decline_friend_request' received_request.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="edit-profile-btn"><i class="fas fa-user-times"></i></button>
+    </form>
+{% else %}
+    <form action="{% url 'send_friend_request' user.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="edit-profile-btn"><i class="fas fa-user-plus"></i></button>
+    </form>
+{% endif %}
+{% endif %}
+
+            {% elif user.accounts_type == 'C' %}
+            <!--- This is if Friend account -->
+
+            {% if request.user.is_authenticated and user != request.user %}
+            {% if user in request.user.friends.all %}
+                    <button disabled class="edit-profile-btn"><i class="fas fa-user-check"></i></button>
+            {% elif sent_request %}
+                <button disabled class="edit-profile-btn"><i class="fas fa-spinner fa-spin"></i></button>
+            {% elif received_request %}
+                {% if received_request.status == 'D' %}
+                    <!-- Show Declined message -->
+                        <button disabled class="edit-profile-btn"><i class="fas fa-user-times"></i></button>
+                {% else %}
+                    <form action="{% url 'accept_friend_request' received_request.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="edit-profile-btn">Accept <i class="fas fa-user-check"></i></button>
+                    </form>
+                    <form action="{% url 'decline_friend_request' received_request.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="edit-profile-btn">Decline <i class="fas fa-user-times"></i></button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <form action="{% url 'send_friend_request' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="edit-profile-btn">Follow <span><i class="fas fa-user-plus"></i></span></button>
+                </form>
+            {% endif %}
+        {% endif %}
+            {% elif user.accounts_type  == 'F' %}
+            {% if request.user.is_authenticated and user != request.user %}
+            {% if user in request.user.friends.all %}
+                    <button disabled class="edit-profile-btn">You are a friend</button>
+            {% elif sent_request %}
+                <button disabled class="unfollow">Sented <i class="fas fa-spinner fa-spin"></i></button>
+            {% elif received_request %}
+                {% if received_request.status == 'D' %}
+                    <!-- Show Declined message -->
+                        <button disabled class="edit-profile-btn">Friend request declined</button>
+                {% else %}
+                    <form action="{% url 'accept_friend_request' received_request.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="edit-profile-btn">Accept friend Request <i class="fas fa-user-plus"></i></button>
+                    </form>
+                    <form action="{% url 'decline_friend_request' received_request.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="edit-profile-btn">Decline friend Request <i class="fas fa-user-times"></i></button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <form action="{% url 'send_friend_request' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="edit-profile-btn">Send request to {{ user.username }} <i class="fas fa-user-plus"></i></button>
+                </form>
+            {% endif %}
+        {% endif %}
+            {% endif %}
+            {% if user.accounts_type  == 'C' %}
+            {% if user == request.user %}
+                <a href="{% url 'edit_profile' %}">
+                  <button class="edit-profile-btn">Edit</button></a>
+                  <a href="{% url 'inbox' %}"><button class="edit-profile-btn">Inbox ( {{ friend_requests_count }} )</button></a>
+                  <a href="{% url 'chat_users_list' %}"><button class="edit-profile-btn">Chats</button></a>
+            {% else %}
+            {% if user in request.user.friends.all %}
+            <a href="{% url 'chat_with_user' user.username %}"><button class="edit-profile-btn">Message</button></a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+            {% if user.accounts_type  == 'F' %}
+            {% if user == request.user %}
+                <a href="{% url 'edit_profile' %}">
+                  <button class="edit-profile-btn">Edit</button></a>
+                  <a href="{% url 'inbox' %}"><button class="edit-profile-btn">Inbox ( {{ friend_requests_count }} )</button></a>
+                  <a href="{% url 'chat_users_list' %}"><button class="edit-profile-btn">Chats</button></a>
+            {% else %}
+            {% if user in request.user.friends.all %}
+            <a href="{% url 'chat_with_user' user.username %}"><button class="edit-profile-btn">Message</button></a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+
+        </div>
+
+        <div class="posts">
+            {% if user in request.user.friends.all %}
+{% else %}
+
+            {% if user.accounts_type == 'C' %}
+            <div class="section">
+                <div class="section-header" >
+                {{ user.get_accounts_type_display }}
+                  <span class="arrow"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="section-content" style="display: block;">
+                  <div class="post">
+                      <p>{{ user.username }} account is close and that's why you can't follow momental <span class="email">{{ user.name }}</span> need to accept you to follow himself.</p>
+                  </div>
+                </div>
+              </div>
+              {% elif user.accounts_type == 'F' %}
+              <div class="section">
+                <div class="section-header" >
+                {{ user.get_accounts_type_display }}
+                  <span class="arrow"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="section-content" style="display: block;">
+                  <div class="post">
+                      <p>{{ user.username }} account is for friends and that's why you can't follow momental <span class="email">{{ user.name }}</span> need to accept you to add friend himself.</p>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endif %}
+                        
+        <style>
+            .container {
+          width: 100%;
+          background: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+    
+        .section {
+          border-bottom: 1px solid #ccc;
+        }
+    
+        .section:last-child {
+          border-bottom: none;
+        }
+    
+        .section-header {
+          padding: 10px;
+          cursor: pointer;
+          background-color: #f5f5f5;
+          font-weight: bold;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+    
+        .section-header:hover {
+          background-color: #e0e0e0;
+        }
+    
+        .section-content {
+          display: none;
+          padding: 10px;
+          background-color: #ffffff;
+        }
+    
+        .arrow {
+          transition: transform 0.3s;
+        }
+    
+        .arrow.open {
+          transform: rotate(90deg);
+        }
+              </style>
+                
+                  <div class="container">
+                    <!-- Mini-feed Section -->
+                    
+                    <div class="section">
+                      <div class="section-header" onclick="toggleSection(this)">
+                        About {{ user.username }}
+                        <span class="arrow"><i class="fas fa-play"></i></span>
+                      </div>
+                      <div class="section-content" style="display: block;">
+                        <div class="post">
+                            {% if user not in request.user.blocked_users.all %}
+
+                            {% if request.user not in user.blocked_users.all %}
+
+                            <p>Name: <span class="email">{{ user.name }}</span></p>
+                            <p>Surname: <span class="email">{{ user.surname }}</span></p>
+                            <p>Email: <span id="emailButton" class="email">{{ user.email }}</span></p>
+            
+                            <script>
+                              // JavaScript to handle the email action
+                              document.getElementById('emailButton').addEventListener('click', function () {
+                                const recipient = 'example@example.com'; // Replace with the recipient's email address
+                                const subject = "Hello i m {{ request.user.username }} i wan't to talk with you!'";
+                                const body = 'Hay i m {{ request.user.username }} i want talk with you'; // Replace with the email body
+                          
+                                window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                              });
+                            </script>
+                            <p>Gender <span class="email">{{ user.get_gender_display }}</span></p>
+                            <p>Status <span class="email">{{ user.get_status_display }}</span></p>
+                            {% if user.mini_info %}
+                            <p>Bio: <span class="email">{{ user.mini_info }}</span></p>
+                            {% endif %}
+                            {% else %}
+                            <p>{{ user.username }} have blocked you can't more see he's information or status</p>
+                            {% endif %}
+                            {% else %}
+                            <p>You have blocked {{ user.username }} you can't more see he's information or status</p>
+                            {% endif %}
+
+                        </div>
+                      </div>
+                    </div>
+                    <script>
+                        function toggleSection(header) {
+                          const content = header.nextElementSibling;
+                          const arrow = header.querySelector('.arrow');
+                    
+                          if (content.style.display === "block") {
+                            content.style.display = "none";
+                            arrow.classList.remove("open");
+                          } else {
+                            content.style.display = "block";
+                            arrow.classList.add("open");
+                          }
+                        }
+                      </script>
+                     <div class="photo-post-list">
+                        {% for post in posts %}
+                        <div class="photo-post" onclick="openPopup()">
+                            {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="Post Image">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Full-Screen Popup Modal -->
+                    
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                    <script>
+                        // Function to toggle the visibility of the comments section
+function toggleComments(postId) {
+    const commentsDiv = document.getElementById(`comments-${postId}`);
+    
+    // Toggle the display style between 'none' and 'block'
+    if (commentsDiv.style.display === "none" || commentsDiv.style.display === "") {
+        commentsDiv.style.display = "block";
+    } else {
+        commentsDiv.style.display = "none";
+    }
+}
+                        $(document).ready(function() {
+                            $(".like-btn").click(function() {
+                                var postId = $(this).data("post-id");
+                                var button = $(this);
+                                $.ajax({
+                                    url: "{% url 'like_photo' %}",
+                                    type: "POST",
+                                    data: {
+                                        'post_id': postId,
+                                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                    },
+                                    success: function(response) {
+                                        if (response.success) {
+                                            var icon = button.find("i");
+                                            if (icon.hasClass('fa-thumbs-down')) {
+                                                icon.removeClass('fa-thumbs-down').addClass('fa-thumbs-up');
+                                            } else {
+                                                icon.removeClass('fa-thumbs-up').addClass('fa-thumbs-down');
+                                            }
+                                            button.find(".like-count").text(response.like_count);
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    
+                        // Toggle comments visibility
+                        function toggleComments(postId) {
+                            const commentsDiv = document.getElementById(`comments-${postId}`);
+                            commentsDiv.style.display = commentsDiv.style.display === "none" ? "block" : "none";
+                        }
+                    </script>
+                    <script>
+                        // Function to open the popup with the post images
+                        function openPopup() {
+                            document.getElementById("popup").style.display = "flex";
+                        }
+                    
+                        // Function to close the popup when clicked on the X button
+                        function closePopup() {
+                            document.getElementById("popup").style.display = "none";
+                        }
+                    
+                        
+                    </script>
+                             <script>
+                                let currentTheme = localStorage.getItem('theme') || 'dark'; // Default to 'dark' if not set in localStorage
+                              
+                                // Set the theme on page load based on the saved theme
+                                const themes = {
+                                  violet: {
+                                    '--bg-color': '#121212',
+                                    '--text-color': '#fff',
+                                    '--container-color': '#1e1e1e',
+                                    '--hover-color': '#2a2a2a',
+                                    '--border-color': '#333',
+                                    '--header-color': '#a42eff',
+                                  },
+                                  light: {
+                                    '--bg-color': '#ffffff',
+                                    '--text-color': '#000',
+                                    '--container-color': '#f9f9f9',
+                                    '--hover-color': '#f1f1f1',
+                                    '--border-color': '#ddd',
+                                    '--header-color': '#212121',
+                                  },
+                                  dark: {
+                                    '--bg-color': '#121212',
+                                    '--text-color': '#fff',
+                                    '--container-color': '#1e1e1e',
+                                    '--hover-color': '#2a2a2a',
+                                    '--border-color': '#333',
+                                    '--header-color': '#212121',
+                                  },
+                                  green: {
+                                    '--bg-color': '#ffffff',
+                                    '--text-color': '#333',
+                                    '--container-color': '#eaf7e5',
+                                    '--hover-color': '#c6f2b2',
+                                    '--border-color': '#88d49f',
+                                    '--header-color': '#4caf50',
+                                  },
+                                  orange: {
+                                    '--bg-color': '#ffffff',
+                                    '--text-color': '#333',
+                                    '--container-color': '#fff4e5',
+                                    '--hover-color': '#ffcc99',
+                                    '--border-color': '#ff9966',
+                                    '--header-color': '#ff9800',
+                                  },
+                                  blue: {
+                                    '--bg-color': '#ffffff',
+                                    '--text-color': '#333',
+                                    '--container-color': '#e0f7fa',
+                                    '--hover-color': '#80deea',
+                                    '--border-color': '#4dd0e1',
+                                    '--header-color': '#2196f3',
+                                  },
+                                };
+                              
+                                const root = document.documentElement;
+                              
+                                function applyTheme() {
+                                  const selectedTheme = themes[currentTheme];
+                                  for (const [key, value] of Object.entries(selectedTheme)) {
+                                    root.style.setProperty(key, value);
+                                  }
+                                }
+                              
+                                // Apply the default or saved theme on page load
+                                applyTheme();
+                              
+                                function toggleTheme() {
+                                  // Toggle between themes
+                                  if (currentTheme === 'violet') currentTheme = 'light';
+                                  else if (currentTheme === 'light') currentTheme = 'dark';
+                                  else if (currentTheme === 'dark') currentTheme = 'green';
+                                  else if (currentTheme === 'green') currentTheme = 'orange';
+                                  else if (currentTheme === 'orange') currentTheme = 'blue';
+                                  else currentTheme = 'violet';
+                              
+                                  // Save the selected theme to localStorage
+                                  localStorage.setItem('theme', currentTheme);
+                              
+                                  // Apply the new theme
+                                  applyTheme();
+                                }
+                                
+                              </script>
+                      
+    </div>
+</body>
+</html>

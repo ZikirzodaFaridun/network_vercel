@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Create post{% endblock %}
+
+{% block content %}
+<style>
+    textarea {
+        width: 90%;
+    }
+    
+</style>
+    <h2>Create a new short and share with friends</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Post</button>
+    </form>
+</body>
+</html>
+{% endblock %}

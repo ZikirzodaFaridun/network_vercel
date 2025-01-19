@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--bg-color); /* Default dark theme background */
+            color: var(--text-color);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .chat-header {
+    position: fixed; /* Fixed to stay at the top of the viewport */
+    top: 0; /* Ensures it starts at the very top */
+    height: 50px;
+    width: 100%;
+    display: flex;
+    background: rgba(58, 58, 74, 0.5); /* Semi-transparent for glass effect */
+    border-bottom: 1px solid rgba(75, 75, 99, 0.3); /* Softer border */
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100; /* Ensures it is on top of the chat-container */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    transition: backdrop-filter 0.3s ease, background 0.3s ease; /* Smooth transition for hover */
+}
+
+.chat-container {
+    position: absolute; /* Positioned relative to the viewport or parent container */
+    top: -100px; /* Starts just below the chat-header */
+    width: 100%; /* Full width */
+    height: 110%; /* Fills the remaining viewport height */
+    background: var(--bg-color); /* Default dark theme background */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allows scrolling for overflowing messages */
+    padding-top: 20px; /* Adds 20px space before items */
+    z-index: 50; /* Lower than the chat-header */
+}
+
+        .right {
+            margin-right: 30px;
+        }
+
+        .chat-header .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .chat-header .icons {
+            font-size: 18px;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            margin-top: 90px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.3s ease;
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #5c5c77 #2c2c3a; /* Scrollbar color for Firefox */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    padding-bottom: 100px ;
+    padding-top: 50px;
+
+}
+
+/* Custom scrollbar for Webkit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5c5c77; /* Scrollbar thumb color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7d7d9c; /* Hover color for scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2c3a; /* Scrollbar track color */
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5c5c77; /* Scrollbar thumb color */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7d7d9c; /* Hover color for scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2c3a; /* Scrollbar track color */
+}
+
+.message {
+    display: flex;
+            align-items: flex-end;
+            max-width: 80%;
+}
+
+.message-received {
+    align-self: flex-start;
+}
+
+.message-sent {
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+
+        .message-received {
+            align-self: flex-start;
+        }
+
+        .message-sent {
+            align-self: flex-end;
+            justify-content: flex-end;
+
+        }
+
+        .message .profile-pic {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: url('https://via.placeholder.com/30') no-repeat center center/cover;
+            margin-right: 8px;
+        }
+
+        .message-text {
+            background: var(--container-color);
+            color: var(--text-color);
+            padding: 10px 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            word-break: break-word; /* Forces breaks for long, unbroken text */
+            overflow: hidden; 
+            
+        }
+        .message-text img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .message-received .message-text {
+            background: var(--message-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 0px;
+        }
+        .message-sent .message-text {
+            border-bottom-right-radius: 0px;
+
+        }
+
+        .chat-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    padding: 10px;
+    background: var(--border-color);
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(5px); /* Reduce blur on hover for better visibility */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    background: var(--footer-color); /* Lighter background on hover */
+}
+.chat-footer-blocked {
+    flex: 1;
+            padding: 12px 15px;
+            background: var(--hover-color);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.3s ease;
+}
+
+
+        .chat-footer input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--hover-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-footer input::placeholder {
+            color: var(--text-color); /* Default color if no custom property is set */
+        }
+
+        .chat-footer button {
+            background: var(--container-color);
+            color: var(--text-color);
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            
+        }
+
+
+        .chat-footer button i {
+            font-size: 18px;
+        }
+
+        .chat-header .icons i {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .chat-header .icons i:hover {
+            color: #a0a0b0;
+        }
+
+        .theme-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #3a3a4a;
+            border-radius: 10px;
+            padding: 20px;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .theme-popup h3 {
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .theme-popup .theme-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-popup .theme-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .theme-popup .close-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #4b4b63;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic {
+            width: 30px;
+            height: 30px;
+            object-fit: cover; /* Ensure the image is cropped to fit within the dimensions */
+            border-radius: 100px;
+            margin-left: 10px;
+
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .upload-icon {
+            background: var(--container-color);
+            color: var(--text-color);
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .upload-icon:hover {
+            background: var(--container-color);
+        }
+        #image-preview-container {
+    width: 100%; /* Adjust the size of the preview image */
+    height: 100%; /* Adjust the size of the preview image */
+    object-fit: cover; /* Ensure the image is cropped to fit within the dimensions */
+    border-radius: 8px;
+}
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="left">
+                <i class="fas fa-arrow-left" onclick="goBack()"></i>
+                <div class="profile">
+
+    <script>
+        // JavaScript function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+                    {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" alt="Sender Profile Picture">
+                {% else %}
+                    {% if user.gender == "M" %}
+                    <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+                {% else %}
+                    <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-image-{% if user.is_online %}online{% else %}offline{% endif %}">
+                {% endif %}
+                {% endif %}
+                <div class="{% if user.is_online %}
+          online
+          {% else %}
+          offline
+          {% endif %}"></div>
+
+                    <div class="name" style="color: var(--text-color);">
+                        <a href="{% url 'user_profile' user.username %}">
+                        {% if user != request.user %}
+                        {% if request.user in user.blocked_users.all %}
+
+                        {{ user.name }} - 
+                        {% elif user in request.user.blocked_users.all %}
+                        {{ user.name }} <i class="fas fa-ban" style="color: red;font-size: small;"></i>
+                        {% else %}
+                        {{ user.name }}
+
+                        {% endif %}
+                        {% else %}
+                        Your notes mr {{ request.user.username }}
+                        {% endif %}
+                    </a>
+                    </div>
+                    {% if request.user in user.blocked_users.all %}
+
+                    <div class="name" style="color: rgb(255, 103, 103);">&MediumSpace; Blocked you</div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="right">
+                {% if user != request.user %}
+                {% if request.user in user.blocked_users.all %}
+                <a href="{% url 'chat_users_list' %}" class="btn btn-danger"><i class="fas fa-arrow-right"></i></a>
+
+                    {% else %}
+                {% if user not in request.user.blocked_users.all %}
+    <a href="{% url 'block_user' user.username %}" class="btn btn-danger"><i class="fas fa-ban" style="color: rgb(255, 158, 158);"></i></a>
+{% else %}
+    <a href="{% url 'unblock_user' user.username %}" class="btn btn-success"><i class="fas fa-unlock" style="color: rgb(117, 255, 117);"></i></a>
+{% endif %}
+{% endif %}
+                {% else %}
+                <i class="fas fa-pencil-alt"></i>
+                {% endif %}
+                
+                    <i class="fas fa-adjust" onclick="toggleTheme()"></i>
+            </div>
+        </div>
+        <style>
+            .chat-header {
+    position: fixed; /* Fixed to stay at the top of the viewport */
+    top: 0; /* Ensures it starts at the very top */
+    height: 50px;
+    color: var(--text-color);
+
+    width: 100%;
+    display: flex;
+    padding-left: 10px;
+    background: rgba(58, 58, 74, 0.5); /* Semi-transparent for glass effect */
+    border-bottom: 1px solid var(--border-color); /* Softer border */
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100; /* Ensures it is on top of the chat-container */
+    backdrop-filter: blur(5px); /* Reduce blur on hover for better visibility */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    background: var(--footer-color); /* Lighter background on hover */
+}
+            .chat-header .left {
+                display: flex;
+                align-items: center;
+            }
+            .chat-header .left i {
+                font-size: 24px;
+                margin-right: 15px;
+                cursor: pointer;
+            }
+            .chat-header .profile {
+                display: flex;
+                align-items: center;
+            }
+            .chat-header .profile img {
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            .chat-header .name {
+                font-size: 16px;
+                font-weight: bold;
+                color: var(--text-color);
+            }
+            .chat-header .right i {
+                font-size: 20px;
+                margin-left: 20px;
+                cursor: pointer;
+                color: var(--header-color);
+
+            }
+            .chat-header .right i:hover {
+                color: var(--header-color);
+            }
+            .message {
+    position: relative;
+}
+
+
+.message-actions {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: -60px;
+    transform: translateY(-50%);
+}
+
+.message:hover .message-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.edit-btn:hover {
+    color: #007bff;
+}
+
+.delete-btn:hover {
+    color: #dc3545;
+}
+
+.online {
+      position: absolute;
+      background: #0abb54;
+      color: #ffffff;
+      border:3px solid #3a3a4a;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px;
+      border-radius: 100px;
+      margin-top: 25px;
+      margin-left: 25px;
+      
+    }
+    .offline {
+        position: absolute;
+      background: #bb0a0a;
+      color: #ffffff;
+      border:3px solid #3a3a4a;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px;
+      border-radius: 100px;
+      margin-top: 25px;
+      margin-left: 25px;
+    }
+    .message-network {
+        align-self: center;
+        justify-content: center;
+        color: #aa50c5;
+    }
+    .message-network-text {
+        background: #d1a9ff;
+            color: rgb(140, 0, 255);
+            padding: 10px 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+    }
+        </style>
+        
+        <div class="chat-body">
+            {% if messages.exists %}
+
+            {% for message in messages %}
+            <div class="message {% if message.sender == user %}message-received{% else %}message-sent{% endif %}">
+                <div class="message-content">
+                {% if message.sender == user %}
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" alt="Sender Profile Picture" class="profile-pic">
+                {% else %}
+                    {% if user.gender == "M" %}
+                    <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-pic">
+                {% else %}
+                    <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-pic">
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                
+                <div class="message-text">
+                {{ message.content }}
+                {% if message.image %}
+                <img src="{{ message.image.url }}" alt="Message Image">
+            {% endif %}{{ message.timestamp|date:"H:i" }}
+            {% if message.sender == request.user %}
+            <div class="message-actions">
+                <button class="edit-btn" data-id="{{ message.id }}"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" data-id="{{ message.id }}"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        {% endif %}
+                    {% if message.is_read %}
+                    <span class="read"><i class="fas fa-check-circle"></i></span>
+                {% else %}
+                    <span><i class="fas fa-times-circle"></i></span>
+                {% endif %}</div>
+            </div>
+        </div>
+
+            {% endfor %}
+            
+            {% else %}
+
+        <div class="message message-network">
+            <div class="message-network-text">
+                {% if user != request.user %}
+                <i class="fas fa-lock"></i>
+
+                Network locking system: You can be sure your chat messages are secure.You can read more in             <a href="{% url 'terms' %}" style="text-decoration: underline;color: #aa50c5;">terms</a>
+ page
+                <span class="read"><i class="fas fa-check-circle"></i></span>
+            {% else  %}
+            <i class="fas fa-sticky-note"></i>
+
+            Network note system: You can write something what you need in our note systheme no one can see you'r note only you can...
+            <span class="read"><i class="fas fa-pencil-alt"></i> <!-- Alternative -->
+            </span>
+{% endif %}
+
+            </div>
+        </div>
+    {% endif %}
+    {% if request.user in user.blocked_users.all %}
+    <div class="message message-sent">
+        <div class="message-content">
+            <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Female Placeholder" class="profile-pic">
+        </div>
+        <div class="message-text">
+            {% if user != request.user %}
+            <i class="fas fa-ban"></i>
+            Sorry but this user are blocked you.You can't message to him more
+            <i class="fas fa-times-circle"></i>
+        {% else  %}
+        <i class="fas fa-sticky-note"></i>
+
+        Network note systeme: You can write something what you need in our note systeme no one can see you'r note only you can...
+        <span class="read"><i class="fas fa-pencil-alt"></i> <!-- Alternative -->
+        </span>
+{% endif %}
+
+        </div>
+    </div>
+    {% endif %}
+        </div>
+        {% if request.user in user.blocked_users.all %}
+        <div class="chat-footer">
+
+        <div class="chat-footer-blocked">
+        This user blocked you you can't more message him. <i class="fas fa-sad-cry"></i>
+        </div>
+        </div>
+        {% else %}
+        <form action="{% url 'send_message' username=user.username %}" method="POST" class="message-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="chat-footer">
+                <div id="image-preview-container" style="display: none; margin-bottom: 10px;">
+                    <img id="image-preview" src="" alt="Image Preview" style="max-width: 20px; max-height: 20px;">
+                </div>
+                {% if user != request.user %}
+
+                <input type="text" name="message" rows="1" placeholder="Type your message..." required>
+                {% else %}
+                <input type="text" name="message" rows="1" placeholder="Type your tasks..." required>
+                {% endif %}
+        
+                <label for="image-upload" class="upload-icon">
+                    <i class="fas fa-image"></i> 
+                    <input type="file" name="image" id="image-upload" accept="image/*" style="display: none;">
+                </label>
+        
+                {% if user != request.user %}
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                {% else %}
+                <button type="submit"><i class="fas fa-pencil-alt"></i></button>
+                {% endif %}
+            </div>
+        </form>
+        {% endif %}
+        <script>
+            const csrf_token = "{{ csrf_token }}";  // Make sure this is being passed properly
+        </script>
+        
+        <script>
+       document.addEventListener('click', (event) => {
+    // Handle Edit Button
+    if (event.target.closest('.edit-btn')) {
+        const button = event.target.closest('.edit-btn');
+        const messageId = button.getAttribute('data-id');
+        const messageElement = button.closest('.message-text');
+
+        const oldContent = Array.from(messageElement.childNodes)
+            .filter(node => node.nodeType === Node.TEXT_NODE)
+            .map(node => node.nodeValue.trim())
+            .join('');
+
+        const newContent = prompt('Edit your message:', oldContent);
+
+        if (newContent && newContent !== oldContent) {
+            fetch(`/message/edit/${messageId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf_token,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ message: newContent }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    const textNode = Array.from(messageElement.childNodes).find(
+                        node => node.nodeType === Node.TEXT_NODE
+                    );
+                    if (textNode) {
+                        textNode.nodeValue = data.message.content;
+                    }
+                } else {
+                    alert('Error editing message.');
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+
+    // Handle Delete Button
+    if (event.target.closest('.delete-btn')) {
+        const button = event.target.closest('.delete-btn');
+        const messageId = button.getAttribute('data-id');
+
+        if (confirm('Are you sure you want to delete this message?')) {
+            fetch(`/message/delete/${messageId}/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrf_token },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const messageElement = button.closest('.message');
+                    messageElement.remove();
+                } else {
+                    alert('Error deleting message.');
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+});
+        
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const messageId = event.target.closest('.delete-btn').getAttribute('data-id');
+        
+                if (confirm('Are you sure you want to delete this message?')) {
+                    fetch(`/message/delete/${messageId}/`, {
+                        method: 'POST',
+                        headers: { 'X-CSRFToken': csrf_token },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const messageElement = event.target.closest('.message');
+                            messageElement.remove();
+                        } else {
+                            alert('Error deleting message.');
+                        }
+                    })
+                    .catch(error => console.error(error));
+                }
+            });
+        });
+        
+            // Wait for the DOM to load
+            document.addEventListener('DOMContentLoaded', function() {
+                const messageForm = document.querySelector('.message-form');
+                const messageInput = messageForm.querySelector('input[name="message"]');
+                const imageInput = messageForm.querySelector('input[name="image"]');
+                
+                // Handle form submission with AJAX
+                messageForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+        
+                    const formData = new FormData(messageForm); // Get form data including image/video
+        
+                    // Send AJAX request
+                    fetch(messageForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            // Optionally, you can log the message data or perform any other action
+                            console.log('Message sent successfully:', data.message);
+        
+                            // Clear the input fields
+                            messageInput.value = '';
+                            imageInput.value = '';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending message:', error);
+                        alert('Error sending message');
+                    });
+                });
+            });
+        </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const messagesContainer = document.querySelector('.chat-body');
+
+    if (messagesContainer) {
+        let isAtBottom = true; // Assume the user is at the bottom initially
+
+        // Function to fetch messages from the server
+        const fetchMessages = () => {
+            const recipientUsername = "{{ user.username }}"; // Get the recipient username
+            const fetchUrl = `/chat/${recipientUsername}/fetch/`; // URL to fetch new messages
+
+            fetch(fetchUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear the existing messages
+                    messagesContainer.innerHTML = '';
+
+                    // Check if there are no messages
+                    if (data.messages.length === 0) {
+                        // Display the default message
+                        const defaultMessage = `
+                            <div class="message message-network">
+            <div class="message-network-text">
+                {% if user != request.user %}
+                <i class="fas fa-lock"></i>
+
+                Network locking system: You can be sure your chat messages are secure.You can read more in             <a href="{% url 'terms' %}" style="text-decoration: underline;color: #aa50c5;">terms</a>
+ page
+                <span class="read"><i class="fas fa-check-circle"></i></span>
+            {% else  %}
+            <i class="fas fa-sticky-note"></i>
+
+            Network note system: You can write something what you need in our note systheme no one can see you'r note only you can...
+<span class="read"><i class="fas fa-pencil-alt"></i> <!-- Alternative -->
+</span>
+            </div>
+        </div>
+    {% endif %}
+        </div>`;
+                        messagesContainer.innerHTML = defaultMessage;
+                    } else {
+                        // Loop through the messages
+                        data.messages.forEach(message => {
+                            const messageDiv = document.createElement('div');
+                            const isSent = message.sender === "{{ user.username }}"; // Check if message is sent by the current user
+                            messageDiv.classList.add('message', isSent ? 'message-received' : 'message-sent');
+
+                            // Construct the message HTML
+                            messageDiv.innerHTML = `
+                                <div class="message-content">
+                                    ${!isSent ? '' : ` 
+                                        {% if user.profile_pic %}
+                                            <img src="{{ user.profile_pic.url }}" alt="Sender Profile Picture" class="profile-pic">
+                                        {% else %}
+                                            {% if user.gender == "M" %}
+          <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" class="profile-pic">
+      {% else %}
+          <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder" class="profile-pic">
+      {% endif %}
+                                        {% endif %}
+                                    `}
+               ${isSent ? '' : ` 
+
+            <div class="message-actions">
+                <button class="edit-btn" data-id="{{ message.id }}"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" data-id="{{ message.id }}"><i class="fas fa-trash-alt"></i></button>
+            </div>`}
+                                    <div class="message-text">${message.content}
+                                        ${message.image ? `<img src="${message.image}" alt="Image">` : ''}
+                                        ${message.video ? `<video controls src="${message.video}"></video>` : ''}
+                                        ${message.timestamp}
+                                        <i class="${message.is_read}"></i>  <!-- Display the correct icon -->
+                                    </div>
+                                </div>
+                                
+                            `;
+
+                            // Append the message to the messages container
+                            messagesContainer.appendChild(messageDiv);
+                        });
+                    }
+
+                    // Scroll to the bottom instantly, without any animation
+                    if (isAtBottom) {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Directly scroll to the bottom
+                    }
+                })
+                .catch(error => console.error('Error fetching messages:', error));
+        };
+
+        // Listen for scroll events to detect if the user is at the bottom
+        messagesContainer.addEventListener('scroll', () => {
+            const nearBottom = messagesContainer.scrollTop + messagesContainer.clientHeight >= messagesContainer.scrollHeight - 50;
+            isAtBottom = nearBottom;
+        });
+
+        // Fetch messages every second
+        setInterval(fetchMessages, 1000);
+    }
+});
+
+
+document.getElementById('image-upload').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+        // Create a FileReader to read the file
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            // Get the preview container and image element
+            const imagePreviewContainer = document.getElementById('image-preview-container');
+            const imagePreview = document.getElementById('image-preview');
+            
+            // Set the image source to the file content
+            imagePreview.src = e.target.result;
+            
+            // Show the image preview container
+            imagePreviewContainer.style.display = 'block';
+        };
+
+        // Read the file as a data URL (image preview)
+        reader.readAsDataURL(file);
+    }
+});
+    </script>
+     <script>
+        let currentTheme = localStorage.getItem('theme') || 'dark'; // Default to 'dark' if not set in localStorage
+      
+        // Set the theme on page load based on the saved theme
+        const themes = {
+          violet: {
+            '--bg-color': '#121212',
+            '--text-color': '#fff',
+            '--container-color': '#1e1e1e',
+            '--hover-color': '#8355b5',
+            '--border-color': '#333',
+            '--header-color': '#a42eff',
+            '--footer-color': 'rgba(161, 94, 219, 0.3)',
+            '--message-color':'#d9d9d9',
+          },
+          light: {
+            '--bg-color': '#ffffff',
+            '--text-color': '#000',
+            '--container-color': '#f9f9f9',
+            '--hover-color': '#f1f1f1',
+            '--border-color': '#ddd',
+            '--header-color': '#212121',
+            '--footer-color': 'rgba(255, 255, 255, 0.3)',
+            '--message-color':'#1a1a1a',
+
+          },
+          dark: {
+            '--bg-color': '#121212',
+            '--text-color': '#fff',
+            '--container-color': '#1e1e1e',
+            '--hover-color': '#2a2a2a',
+            '--border-color': '#333',
+            '--header-color': '#212121',
+            '--footer-color': 'rgba(0, 0, 0, 0.3)',
+            '--message-color':'#d6d6d6',
+
+          },
+          green: {
+            '--bg-color': '#ffffff',
+            '--text-color': '#333',
+            '--container-color': '#eaf7e5',
+            '--hover-color': '#c6f2b2',
+            '--border-color': '#88d49f',
+            '--header-color': '#4caf50',
+            '--footer-color': 'rgba(67, 212, 48, 0.3)',
+            '--message-color':'#f7e5e5',
+
+          },
+          orange: {
+            '--bg-color': '#ffffff',
+            '--text-color': '#333',
+            '--container-color': '#fff4e5',
+            '--hover-color': '#ffcc99',
+            '--border-color': '#ff9966',
+            '--header-color': '#ff9800',
+            '--footer-color': 'rgba(212, 122, 48, 0.3)',
+            '--message-color':'#e5f5ff',
+
+          },
+          blue: {
+            '--bg-color': '#ffffff',
+            '--text-color': '#333',
+            '--container-color': '#e0f7fa',
+            '--hover-color': '#80deea',
+            '--border-color': '#4dd0e1',
+            '--header-color': '#2196f3',
+            '--footer-color': 'rgba(48, 133, 212, 0.3)',
+            '--message-color':'#eae0fa',
+          },
+        };
+      
+        const root = document.documentElement;
+      
+        function applyTheme() {
+          const selectedTheme = themes[currentTheme];
+          for (const [key, value] of Object.entries(selectedTheme)) {
+            root.style.setProperty(key, value);
+          }
+        }
+      
+        // Apply the default or saved theme on page load
+        applyTheme();
+      
+        function toggleTheme() {
+          // Toggle between themes
+          if (currentTheme === 'violet') currentTheme = 'light';
+          else if (currentTheme === 'light') currentTheme = 'dark';
+          else if (currentTheme === 'dark') currentTheme = 'green';
+          else if (currentTheme === 'green') currentTheme = 'orange';
+          else if (currentTheme === 'orange') currentTheme = 'blue';
+          else currentTheme = 'violet';
+      
+          // Save the selected theme to localStorage
+          localStorage.setItem('theme', currentTheme);
+      
+          // Apply the new theme
+          applyTheme();
+        }
+        
+      </script>
+
+</body>
+</html>
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Notifications</title>
+</head>
+<body>
+    <h1>Welcome to My Django App</h1>
+    <button id="notify-btn">Enable Notifications</button>
+
+    <script>
+        document.getElementById('notify-btn').addEventListener('click', () => {
+            // Request permission for notifications
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    // Send a notification
+                    new Notification("Hello!", {
+                        body: "This is a simple notification from your Django app.",
+                        icon: "/static/images/notification-icon.png" // Optional: Add an icon
+                    });
+                } else {
+                    alert("Notifications are disabled!");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Notifications</title>
+</head>
+<body>
+    <h1>Welcome to My Django App</h1>
+    <button id="notify-btn">Enable Notifications</button>
+
+    <script>
+        // Function to show a notification
+        function showNotification() {
+            if (Notification.permission === "granted") {
+                new Notification("Hello!", {
+                    body: "This is a simple notification from your Django app.",
+                    icon: "/static/images/notification-icon.png" // Optional: Add an icon
+                });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("Hello!", {
+                            body: "This is a simple notification from your Django app.",
+                            icon: "/static/images/notification-icon.png" // Optional: Add an icon
+                        });
+                    } else {
+                        alert("Notifications are disabled!");
+                    }
+                });
+            } else {
+                alert("You have blocked notifications!");
+            }
+        }
+
+        // Event listener for the button
+        document.getElementById('notify-btn').addEventListener('click', showNotification);
+    </script>
+</body>
+</html>
+
+-->

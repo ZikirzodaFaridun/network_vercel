@@ -1,0 +1,77 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Post List{% endblock %}
+
+{% block content %}
+
+        <div class="main-content">
+            <!-- Loop through posts -->
+            {% for post in posts %}
+                <div class="post-container">
+                    <div class="post-header">
+                        {% if post.user.profile_pic %}
+        <!-- Show current profile picture -->
+        <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+    {% else %}
+    {% if user.gender == "M"%}
+    <img src="https://media.istockphoto.com/id/1327592506/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=BpR0FVaEa5F24GIw7K8nMWiiGmbb8qmhfkpXcp1dhQg=" alt="">
+{% else %}
+    <img src="https://media.istockphoto.com/id/1074273082/vector/person-gray-photo-placeholder-woman.jpg?s=612x612&w=0&k=20&c=XhXXk0uHEK0aZA9AgzGhbYPqmWz3Qk2reH9nZ6BO2sM=" alt="">
+{% endif %}
+        
+    {% endif %}
+                        <span class="username">{{ post.user.username }}</span>
+                    </div>
+
+                    <div class="post-media">
+                        {% if post.image %}
+                            <div class="image-post" id="image-{{ post.id }}">
+                                <img src="{{ post.image.url }}" alt="Post Image">
+                                <p>{{ post.caption }}</p>
+                            </div>
+                        {% else %}
+                        <div class="image-post" id="image-{{ post.id }}">
+                            <p>{{ post.caption }}</p>
+                        </div>
+                        {% endif %}
+                        {% if post.video %}
+                            <div class="video-post" id="video-{{ post.id }}" style="display:none;">
+                                <video controls>
+                                    <source src="{{ post.video.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <p>{{ post.caption }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if post.video %}
+                    <button class="toggle-button" onclick="toggleMedia('{{ post.id }}')">
+                        Show {% if post.image %} Image {% else %} Video {% endif %}
+                    </button>
+                    {% else %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+
+    <script>
+        function toggleMedia(postId) {
+            const imageElement = document.querySelector(`#image-${postId}`);
+            const videoElement = document.querySelector(`#video-${postId}`);
+            const button = event.target;
+
+            if (imageElement && videoElement) {
+                if (imageElement.style.display === 'none') {
+                    imageElement.style.display = 'block';
+                    videoElement.style.display = 'none';
+                    button.textContent = 'Show Video';
+                } else {
+                    imageElement.style.display = 'none';
+                    videoElement.style.display = 'block';
+                    button.textContent = '{% if post.image %}Show image{% else %}Show caption{% endif %}';
+                }
+            }
+        }
+    </script>
+{% endblock %}

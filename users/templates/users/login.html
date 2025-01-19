@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="Mc8LxsQoK-5uW934UJLarnvuiH3NMNkiFuhE047OMe4" />
+    <title>Login - Network</title>
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #1a0129; /* Cyber dark purple */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 60px;
+            font-weight: bold;
+            color: #a42eff; /* Cyber purple */
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 15px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #3c1545; /* Slightly lighter purple */
+            color: #fff;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: #ccc;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px 0;
+            background-color: #a42eff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #7e23c5;
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: #a42eff;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo for Network -->
+    <div class="logo">N</div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="login-btn">Log In</button>
+    </form>
+
+    <div class="links">
+        <p><a href="{% url 'register' %}">Sign Up for Network</a></p>
+    </div>
+</body>
+</html>

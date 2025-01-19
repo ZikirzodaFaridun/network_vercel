@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flyer</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
+  <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+  <style>
+    
+  </style>
+</head>
+<body>
+  <style>
+    
+  </style>
+<div class="top-right-button">
+<button onclick="redirectToSite()"><i class="fas fa-lightbulb"></i></button>
+</div>
+
+<!-- Page content -->
+
+  
+<h1>Marketplace</h1>
+<script>
+function redirectToSite() {
+    window.location.href = "{% url 'create_flyer' %}"; // Replace with your desired URL
+}
+function redirectToSite2(){
+  window.location.href = "{%  url 'users_list' %}";
+
+}
+function redirectToSite3() {
+  window.location.href = "{%  url 'profile' %}"
+
+}
+</script>
+<div class="bottom-bar">
+  <a href="{% url 'recomand' %}" class="icon">
+    <i class="fas fa-home"></i>
+    <div class="label">Home</div>
+  </a>
+  <a href="{% url 'users_list' %}" class="icon">
+      <i class="fas fa-users"></i>
+      <div class="label">Search</div>
+    </a>
+
+  <!-- Search Icon -->
+
+
+  
+
+  <!-- Photos Icon (Updated to Camera Icon) -->
+  <a href="{% url 'search_page' %}" class="icon">
+    <i class="fas fa-search"></i>
+    <div class="label">Network</div>
+  </a>
+
+  <!-- Inbox Icon (Updated to Message Icon) -->
+   {% if friend_requests_count != 0 %}
+  <a href="{% url 'inbox' %}" class="icon">
+    <i class="fas fa-envelope"></i>
+    
+    <div class="notification-badge" id="notificationCount">{{ friend_requests_count }}</div>
+    <div class="label">Inbox</div>
+  </a>
+  {% endif %}
+  
+  <!-- Friends Icon 
+  <a href="#" class="icon">
+    <i class="fas fa-users"></i>
+    <div class="label">Friends</div>
+  </a>
+-->
+  <!-- Shorts Icon (Updated to Video Icon) -->
+
+  <!-- Profile Icon -->
+   <style>
+      .bottom-bar img {
+    top: 0px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+
+  }
+   </style>
+  <a href="{% url 'profile' %}" class="icon">
+      {% if user.profile_pic %}
+      <img src="{{ user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if user.gender == "M" %}
+          <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" >
+      {% else %}
+          <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" >
+      {% endif %}
+  {% endif %}
+      <div class="label">Profile</div>
+    </a>
+
+
+
+</div>
+  <!-- Post -->
+  {% for post in posts %}
+  <div class="photo-post-box">
+    <div class="header">
+      {% if post.user.profile_pic %}
+        <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="profile-pic-placeholder">
+      {% else %}
+      {% if user.gender == "M" %}
+      <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" class="profile-pic-placeholder">
+  {% else %}
+      <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" class="profile-pic-placeholder">
+  {% endif %}
+      {% endif %}
+      <a href="{% url 'user_profile' post.user.username %}">
+        <h5>{{ post.user.username }} </h5></a>    </div>
+    <div class="content">
+        <p>Announcements about {{ post.category }}</p>
+    </div>
+{% if post.video %}
+<video controls>
+    <source src="{{ post.video.url }}" type="video/mp4">
+</video>
+{% endif %}
+    <div class="content">
+      <p>{{ post.caption }}</p>
+    </div>
+    <div class="actions">
+      <button class="like-btn" data-post-id="{{ post.id }}">
+        {% if post.has_liked %}
+        <i class="fas fa-lightbulb"></i>
+        {% else %}
+        <i class="fas fa-lightbulb"></i>
+        {% endif %}
+        <span class="like-count">{{ post.likes_flyer.count }}</span>
+      </button>
+      
+
+    <script>
+        function openWhatsApp() {
+            const phoneNumber = "{{ post.user.number }}"; // Replace with the phone number
+            const message = "Hello, I would want to talk with you about this flyer ( {{ post.caption }} )!"; // Replace with your default message
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, "_blank");
+        }
+    </script>
+      <button class="toggle-comments" onclick="toggleComments('{{ post.id }}')">
+        <i class="fas fa-comments"></i><span>{{ post.comments.count }}</span>
+      </button>
+    <button  onclick="openWhatsApp()" class="whatsup">
+        <i class="fab fa-whatsapp"></i>Message
+    </button>
+    </div>
+    
+    <div class="comments" id="comments-{{ post.id }}">
+        {% for comment in post.comments_list %}
+          <div class="header">
+            {% if comment.user.profile_pic %}
+              <img src="{{ comment.user.profile_pic.url }}" alt="" class="profile-pic-placeholder">
+            {% else %}
+            {% if user.gender == "M" %}
+            <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" class="profile-pic-placeholder">
+        {% else %}
+            <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" class="profile-pic-placeholder">
+        {% endif %}
+            {% endif %}
+            <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
+          </div>
+        {% endfor %}
+        <form method="POST">
+          {% csrf_token %}
+          <input name="content" placeholder="Add a comment">
+          <input type="hidden" name="post_id" value="{{ post.id }}">
+          <button type="submit">Share</button>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <p>No shorts post</p>
+    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // Like post functionality
+      $(document).ready(function() {
+      $(".like-btn").click(function() {
+        var postId = $(this).data("post-id");
+        var button = $(this);
+        $.ajax({
+          url: "{% url 'like_flyer' %}",
+          type: "POST",
+          data: {
+            'post_id': postId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+                    if (response.success) {
+                        var icon = button.find("i");
+                        
+                        button.find(".like-count").text(response.like_count);
+                    }
+                }
+        });
+      });
+    });
+      // Toggle comments visibility
+      function toggleComments(postId) {
+        const commentsDiv = document.getElementById(`comments-${postId}`);
+        commentsDiv.style.display = commentsDiv.style.display === "none" ? "block" : "none";
+      }
+    </script>
+  </body>
+  </html>
+  

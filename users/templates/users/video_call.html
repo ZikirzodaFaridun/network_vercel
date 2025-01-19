@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+    <script src="https://meet.jit.si/external_api.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #meet {
+            width: 100%;
+            height: 700px;
+            margin: 20px auto;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Call</h1>
+    <div id="meet"></div>
+    <div class="error" id="error-message"></div>
+
+    <script>
+        // Ensure you dynamically pass the room name and user info into the script
+        const roomName = "{{ room_name }}"; // Pass the dynamic room name here
+        const displayName = "{{ request.user.username }}"; // Pass the logged-in user's name
+
+        // Jitsi Meet server domain
+        const domain = "meet.jit.si";
+
+        try {
+            // Configure Jitsi Meet options
+            const options = {
+                roomName: roomName,
+                width: "100%",
+                height: 700,
+                parentNode: document.querySelector('#meet'),
+                userInfo: {
+                    displayName: displayName,
+                },
+            };
+
+            // Initialize Jitsi Meet
+            const api = new JitsiMeetExternalAPI(domain, options);
+
+            // Event listeners for debugging (optional)
+            api.addEventListener('videoConferenceJoined', () => {
+                console.log(`${displayName} joined the conference`);
+            });
+
+            api.addEventListener('videoConferenceLeft', () => {
+                console.log(`${displayName} left the conference`);
+            });
+        } catch (error) {
+            // Display error message if Jitsi Meet fails
+            document.getElementById("error-message").innerText =
+                "Failed to load the video call. Please try again.";
+            console.error("Jitsi Meet Error:", error);
+        }
+    </script>
+</body>
+</html>

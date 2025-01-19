@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      margin-bottom: 100%;
+    }
+
+    .container {
+      max-width: 100%;
+      padding: 10px;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .user-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-card img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-info h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .user-info p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .follow-btn {
+      background-color: #a42eff;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .follow-btn:hover {
+      background-color: #8a23d4;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 300px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      right: 0;
+
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-header h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #a42eff;
+    }
+
+    .recommendation-card {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+    }
+
+    .recommendation-card img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .recommendation-card .follow-btn {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    /* Toggle button */
+    .toggle-sidebar {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #a42eff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+
+    }
+
+    @media (max-width: 768px) {
+      .search-bar input {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      .user-card img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .user-info h4 {
+        font-size: 14px;
+      }
+
+      .user-info p {
+        font-size: 12px;
+      }
+
+      .follow-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+    }
+    .button {
+      border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <style>
+    /* Beautiful Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 8px; /* Adjust width of the scrollbar */
+        background-color: #1e1e2f; /* Light background for the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #a42eff; /* Default color for the scrollbar thumb */
+        border: 2px solid #a42eff; /* Border around the thumb */
+        transition: background-color 0.3s ease; /* Smooth transition for color change */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #a42eff; /* Darker color on hover */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent; /* Transparent background for the track */
+    }
+    .online {
+      position: absolute;
+      background: linear-gradient(135deg, #09ff00, #35ff89);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px;
+      margin-top: 35px;
+      border-radius: 100px;
+      border: 3px solid #ffffff;
+      margin-left: 35px;
+      
+    }
+    .offline {
+      position: absolute;
+      background: linear-gradient(135deg, #ff0000, #bb0abb);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px;
+      margin-top: 35px;
+      border-radius: 100px;
+      border: 3px solid #ffffff;
+      margin-left: 35px;
+
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff; /* White background for a clean look */
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0;
+      z-index: 1000;
+    }
+    @media (max-width: 768px) {
+      .online {
+        margin-top: 26px;
+        margin-left: 28px;
+      }
+      .offline {
+        margin-top: 26px;
+        margin-left: 28px;
+      }
+      
+
+    }
+
+    .bottom-bar a {
+      text-decoration: none;
+      color: #555; /* Neutral text color */
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .bottom-bar a:hover {
+      color: #6a0dad; /* Purple hover color */
+    }
+
+    .bottom-bar a .icon {
+      font-size: 1.8rem;
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #ff3b3b;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'users_list' %}">
+      <span class="icon"><i class="fas fa-search"></i></span>
+    </a>
+    {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}">
+      <span class="icon"><i class="fas fa-envelope"></i></span>
+      <span class="badge">{{ friend_requests_count }}</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'chat_users_list' %}">
+      <span class="icon"><i class="fas fa-home"></i></span>
+    </a>
+    <a href="{% url 'delete_account' %}">
+      <span class="icon"><i class="fas fa-cog"></i></span>
+    </a>
+    <a href="{% url 'profile' %}">
+      <style>
+        .icon img {
+          width: 35px;
+          height: 35px;
+          border-radius: 100px;
+          margin-top: 3px;
+        }
+      </style>
+      <span class="icon">
+      {% if request.user.profile_pic %}
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+  {% else %}
+      {% if request.user.gender == "M" %}
+      <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder">
+      {% else %}
+          <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder">
+      {% endif %}
+  {% endif %}</span>
+    </a>
+  </div>
+
+  <div class="container">
+    
+    <div class="user-card">
+      <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+
+      <div class="user-info">
+        <h4>Network</h4>
+        <p>This is you'r settings page.You can: </p>
+      </div>
+      <a href="{% url 'get_started' %}">
+      <button class="follow-btn">list of creators</button></a>
+    </div>
+    
+    <div class="user-card">
+      <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+      <div class="user-info">
+        <h4 style="color: red;">Delete account <i class="fas fa-exclamation-triangle" ></i></h4>
+        <p style="color: #744242;">If you will delete your account you can't more see him and nobody can see it nobody.You delete your account.</p>
+      
+    </div><form method="POST">
+        {% csrf_token %}
+        <button type="button" style="background: red;" class="follow-btn" id="deleteAccountBtn">Delete account</button>
+    </form>
+    </div>
+    <div class="user-card">
+        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+        <div class="user-info">
+          <h4 style="color: #00d9ff;">Edit account <i class="fas fa-pencil-alt" ></i></h4>
+          <p style="color: #426e74;">If you want to edit something like profile pic or name or profile music you can make in in the edit ptofile page.</p>
+      </div>
+      <a href="{% url 'edit_profile' %}">
+          <button type="button" class="follow-btn" style="background: #00d9ff;" id="deleteAccountBtn">Edit account</button></a>
+      </div>
+      <div class="user-card">
+        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+        <div class="user-info">
+          <h4 style="color: #2de278;">Accounts terms <i class="fas fa-shield-alt" ></i></h4>
+          <p style="color: #427465;">Terms of the user account or the network you can read in our terms page.If you want to read about user terms read there in the 2 User content okay</p>
+      </div>
+      <a href="{% url 'terms' %}">
+          <button type="button" class="follow-btn" style="background: #2de278;" id="deleteAccountBtn">Account privacy</button></a>
+      </div>
+      <div class="user-card">
+        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+        <div class="user-info">
+          <h4>Block users <i class="fas fa-ban" ></i></h4>
+          <p>This is all users what you block</p>
+      </div>
+          <button type="button" class="follow-btn" id="deleteAccountBtn" style="background: black;" onclick="toggleSidebar()">List of blocks</button>
+      </div>
+      <div class="user-card">
+        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="Profile">
+        <div class="user-info">
+          <h4>Theme systeme <i class="fas fa-adjust" ></i></h4>
+          <p>Z.Faridun: I mean the graphic's is the main thing after functionality.Becouse when user feels comfortable himself, he will love working in this platform</p>
+      </div>
+          <button type="button" class="follow-btn" id="deleteAccountBtn" style="background: var(--container-color);color: var(--text-color);border: 1px solid var(--border-color);" onclick="showPopup()">Themes <i class="fas fa-adjust"></i></button>
+      </div>
+      <style>
+    
+    
+        button {
+          padding: 10px 20px;
+          margin: 5px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          background-color: var(--hover-color);
+          color: var(--text-color);
+          transition: all 0.3s ease;
+        }
+    
+        button:hover {
+          opacity: 0.9;
+        }
+    
+        #theme-popup {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: var(--container-color);
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          z-index: 10;
+        }
+    
+        .theme-circle {
+          width: 40px;
+          height: 40px;
+          margin: 10px;
+          border-radius: 50%;
+          display: inline-block;
+          cursor: pointer;
+          border: 2px solid var(--border-color);
+          transition: transform 0.3s ease;
+        }
+    
+        .theme-circle:hover {
+          transform: scale(1.2);
+        }
+    
+        #overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 5;
+        }
+      </style>
+    <!-- Popup -->
+    <div id="overlay" onclick="closePopup()"></div>
+    <div id="theme-popup">
+      <h2>Pick a Theme</h2>
+      <div id="theme-circles"></div>
+      <button onclick="closePopup()"><i class="fas fa-times-circle"></i></button>
+    </div>
+  
+    <script>
+      let currentTheme = localStorage.getItem('theme') || 'dark'; // Default to 'dark' if no theme is saved
+  
+      // Define themes and colors
+      const themes = {
+        violet: {
+          '--bg-color': '#121212',
+          '--text-color': '#fff',
+          '--container-color': '#1e1e1e',
+          '--hover-color': '#2a2a2a',
+          '--border-color': '#333',
+          '--header-color': '#a42eff',
+        },
+        light: {
+          '--bg-color': '#ffffff',
+          '--text-color': '#000',
+          '--container-color': '#f9f9f9',
+          '--hover-color': '#f1f1f1',
+          '--border-color': '#ddd',
+          '--header-color': '#212121',
+        },
+        dark: {
+          '--bg-color': '#121212',
+          '--text-color': '#fff',
+          '--container-color': '#1e1e1e',
+          '--hover-color': '#2a2a2a',
+          '--border-color': '#333',
+          '--header-color': '#212121',
+        },
+        green: {
+          '--bg-color': '#ffffff',
+          '--text-color': '#333',
+          '--container-color': '#eaf7e5',
+          '--hover-color': '#c6f2b2',
+          '--border-color': '#88d49f',
+          '--header-color': '#4caf50',
+        },
+        orange: {
+          '--bg-color': '#ffffff',
+          '--text-color': '#333',
+          '--container-color': '#fff4e5',
+          '--hover-color': '#ffcc99',
+          '--border-color': '#ff9966',
+          '--header-color': '#ff9800',
+        },
+        blue: {
+          '--bg-color': '#ffffff',
+          '--text-color': '#333',
+          '--container-color': '#e0f7fa',
+          '--hover-color': '#80deea',
+          '--border-color': '#4dd0e1',
+          '--header-color': '#2196f3',
+        },
+      };
+  
+      const root = document.documentElement;
+  
+      // Apply the selected theme
+      function applyTheme() {
+        const selectedTheme = themes[currentTheme];
+        for (const [key, value] of Object.entries(selectedTheme)) {
+          root.style.setProperty(key, value);
+        }
+        localStorage.setItem('theme', currentTheme); // Save theme to localStorage
+      }
+  
+      // Show the popup
+      function showPopup() {
+        const overlay = document.getElementById('overlay');
+        const popup = document.getElementById('theme-popup');
+        const themeCircles = document.getElementById('theme-circles');
+        
+        themeCircles.innerHTML = ''; // Clear old circles
+  
+        // Create a circle for each theme
+        Object.keys(themes).forEach(theme => {
+          const circle = document.createElement('div');
+          circle.className = 'theme-circle';
+          circle.style.backgroundColor = themes[theme]['--header-color'];
+          circle.onclick = () => {
+            currentTheme = theme;
+            applyTheme();
+            closePopup();
+          };
+          themeCircles.appendChild(circle);
+        });
+  
+        overlay.style.display = 'block';
+        popup.style.display = 'block';
+      }
+  
+      // Close the popup
+      function closePopup() {
+        const overlay = document.getElementById('overlay');
+        const popup = document.getElementById('theme-popup');
+        overlay.style.display = 'none';
+        popup.style.display = 'none';
+      }
+  
+      // Apply the default or saved theme on page load
+      applyTheme();
+    </script>
+    
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Blocked users</h3>
+      <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+    </div>
+
+    {% for blocked_user in blocked_users %}
+    <div class="user-card">
+        {% if blocked_user.profile_pic %}
+        <!-- Show current profile picture -->
+        <img src="{{ user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+    {% else %}
+        {% if blocked_user.gender == "M" %}
+        <img src="https://i.pinimg.com/600x315/34/6e/1d/346e1df0044fd77dfb6f65cc086b2d5e.jpg" alt="Male Placeholder" >
+    {% else %}
+        <img src="https://i.pinimg.com/1200x/c7/0c/36/c70c3652b86753708079b17e9033c488.jpg" alt="Female Placeholder">
+        {% endif %}
+    {% endif %}
+        <div class="user-info">
+          <h4>{{ blocked_user.username }}</h4>
+          <p>@{{ blocked_user.username }}</p>
+        </div>
+        <a href="{% url 'unblock_user' blocked_user.username %}" class="btn btn-success">
+        <button class="follow-btn"> <i class="fas fa-unlock"></i> Unblock user</button></a>
+      </div>
+    {% empty %}
+
+    <div class="user-card">
+      <img src="https://img.freepik.com/premium-vector/blocked-user-icon-flat-vector_116137-13910.jpg" alt="Profile">
+      <div class="user-info">
+        <h4>No one user blocked</h4>
+        <p>It's mean you don't block any users 😎</p>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h3>On delete your account you can't more login with this account or see this account more?</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="confirm-btn">Yes, Delete</button>
+            </form>
+            <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
+        </div>
+    </div>
+    
+    <style>
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        .popup h3 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .popup button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .confirm-btn {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .cancel-btn {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .confirm-btn:hover {
+            background-color: #ff3333;
+        }
+
+        .cancel-btn:hover {
+            background-color: #ccc;
+        }
+
+    </style>
+      
+    <script>
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        deleteAccountBtn.addEventListener('click', () => {
+            popupOverlay.style.display = 'flex';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            popupOverlay.style.display = 'none';
+        });
+    </script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+
+    function toggleSidebar() {
+      if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      } else {
+        sidebar.classList.add('open');
+      }
+    }
+  </script>
+  
+</body>
+</html>

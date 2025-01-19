@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network / register</title>
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://s3.amazonaws.com/thumbnails.venngage.com/template/7231f073-42cb-4372-bb2f-caa7dc75dbed.png') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: rgba(255, 255, 255, 0.85);
+            width: 100%;
+            max-width: 500px; /* Larger width for desktop */
+            border-radius: 8px;
+            padding: 30px; /* More padding for desktop */
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-container h1 {
+            font-size: 26px; /* Bigger font for desktop */
+            color: #8a2be2;
+            margin-bottom: 20px;
+        }
+
+        .register-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-field input, .form-field select, .form-field textarea {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            outline: none;
+            border-color: #8a2be2;
+        }
+
+        .register-btn {
+            background-color: #8a2be2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background-color: #6a1fb7;
+        }
+
+        .register-container p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .register-container a {
+            color: #8a2be2;
+            text-decoration: none;
+        }
+
+        .register-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+
+        .show-password-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .show-password-container input {
+            margin-right: 5px;
+        }
+
+        /* Small devices (phone) */
+        @media (max-width: 480px) {
+            .register-container {
+                max-width: 280px; /* Smaller form */
+                padding: 15px; /* Reduced padding */
+            }
+
+            .register-container h1 {
+                font-size: 18px; /* Smaller heading */
+            }
+
+            .register-btn {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .form-field label {
+                font-size: 10px;
+            }
+
+            .form-field input, .form-field select, .form-field textarea {
+                font-size: 10px;
+            }
+        }
+
+        /* Large devices (desktop) */
+        @media (min-width: 1024px) {
+            .register-container {
+                max-width: 600px; /* Larger width for desktop */
+                padding: 40px; /* More padding for desktop */
+            }
+
+            .register-container h1 {
+                font-size: 32px; /* Larger heading */
+            }
+
+            .register-btn {
+                font-size: 18px;
+                padding: 14px;
+            }
+
+            .form-field label {
+                font-size: 16px;
+            }
+
+            .form-field input, .form-field select, .form-field textarea {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Network - Sign Up</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-field">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.name.id_for_label }}">Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error-message">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.surname.id_for_label }}">Surname</label>
+                {{ form.surname }}
+                {% if form.surname.errors %}
+                    <div class="error-message">{{ form.surname.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error-message">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.gender.id_for_label }}">Gender</label>
+                {{ form.gender }}
+                {% if form.gender.errors %}
+                    <div class="error-message">{{ form.gender.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.status.id_for_label }}">Status</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="error-message">{{ form.status.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="error-message">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="error-message">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="show-password-container">
+                <input type="checkbox" id="show-password" onclick="togglePasswordVisibility()">
+                <label for="show-password">Show Password</label>
+            </div>
+            <div class="show-password-container">
+                <input type="checkbox" id="show-password" required>
+                <label for="show-password">I agree</label>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="register-btn">Sign Up</button>
+            </div>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var password1 = document.getElementById('id_password1');
+            var password2 = document.getElementById('id_password2');
+            var showPasswordCheckbox = document.getElementById('show-password');
+
+            if (showPasswordCheckbox.checked) {
+                password1.type = 'text';
+                password2.type = 'text';
+            } else {
+                password1.type = 'password';
+                password2.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>

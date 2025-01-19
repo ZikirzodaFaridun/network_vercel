@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network - About</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e2f; /* Dark background for cyber theme */
+      color: #ffffff; /* Light text color */
+      margin-bottom: 140px;
+    }
+
+    /* Header */
+    header {
+      background-color: #a42eff; /* Cyber purple */
+      color: #ffffff;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: center; /* Center the content horizontally */
+      align-items: center; /* Center the content vertically */
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    header nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+    }
+
+    header nav a:hover {
+      color: #e0aaff; /* Slightly lighter purple */
+      text-decoration: underline;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      border: 1px solid #5a189a; /* Dark purple border */
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 30%;
+      padding: 10px;
+      border-right: 1px solid #5a189a; /* Dark purple border */
+      background-color: #2a2a3d; /* Slightly lighter dark background */
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #a42eff; /* Cyber purple */
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .sidebar ul li a:hover {
+      color: #e0aaff; /* Hover effect */
+      text-decoration: underline;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 15px;
+
+    }
+
+    .main-content h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #a42eff;
+    }
+
+    .section-title {
+      background-color: #5a189a; /* Dark purple */
+      color: #ffffff;
+      padding: 5px 10px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .section-content {
+      border: 1px solid #5a189a; /* Border for sections */
+      padding: 10px;
+      font-size: 14px;
+      background-color: #2a2a3d;
+      color: #ffffff;
+    }
+
+    .person a {
+      color: #a42eff;
+      text-decoration: none;
+    }
+
+    .person a:hover {
+      color: #e0aaff; /* Hover effect */
+      text-decoration: underline;
+    }
+
+    .contact-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .contact-link a {
+      color: #a42eff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .contact-link a:hover {
+      color: #e0aaff;
+      text-decoration: underline;
+    }
+	.sidebar label {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    .sidebar input[type="text"],
+    .sidebar input[type="password"] {
+      width: calc(100% - 10px);
+      padding: 5px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      border: 1px solid #5a189a;
+      background-color: #3e3e56;
+      color: #ffffff;
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #ffffff;
+      border-top: 3px solid #a42eff;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 15px;
+      z-index: 100;
+    }
+
+    .icon {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #6a0dad;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transition: background 0.3s ease;
+    }
+
+    .icon:hover {
+      background: #a42eff;
+    }
+
+    .icon i {
+      font-size: 24px;
+      color: #6a0dad;
+      transition: color 0.3s ease;
+    }
+
+    .icon:hover i {
+      color: #fff;
+    }
+
+    .icon .label {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #6a0dad;
+      font-weight: bold;
+    }
+
+    /* Notification Badge */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #a42eff;
+      color: #ffffff;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+    }
+
+    /* Media Queries for Mobile */
+    @media (max-width: 768px) {
+      .bottom-bar {
+        height: 70px;
+        padding: 0 10px;
+      }
+
+      .icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .icon i {
+        font-size: 20px;
+      }
+
+      .icon .label {
+        font-size: 10px;
+      }
+    }
+    .button {
+      border: 1px solid #a42eff;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="bottom-bar">
+    <a href="{% url 'users_list' %}" class="icon">
+        <i class="fas fa-search"></i>
+        <div class="label">Search</div>
+      </a>
+    <a href="{% url 'flyer_list' %}" class="icon">
+        <i class="fas fa-store"></i>
+        <div class="label">Store</div>
+    </a>
+    
+    <!-- Home Icon -->
+    <a href="{% url 'stories_list' %}" class="icon">
+        <i class="fas fa-bookmark"></i>
+      <div class="label">Stories</div>
+    </a>
+
+    <!-- Search Icon -->
+
+
+    
+
+    <!-- Photos Icon (Updated to Camera Icon) -->
+    <a href="{% url 'photos_list' %}" class="icon">
+      <i class="fas fa-camera"></i>
+      <div class="label">Photos</div>
+    </a>
+
+    <a href="{% url 'shorts_list' %}" class="icon">
+        <i class="fas fa-video"></i>
+        <div class="label">Shorts</div>
+      </a>
+    <!-- Post Icon (Updated) -->
+    <a href="{% url 'post_list' %}" class="icon">
+        <i class="fas fa-paper-plane"></i>
+        <div class="label">Posts</div>
+    </a>
+
+    <!-- Inbox Icon (Updated to Message Icon) -->
+     {% if friend_requests_count != 0 %}
+    <a href="{% url 'inbox' %}" class="icon">
+      <i class="fas fa-envelope"></i>
+      
+      <div class="notification-badge" id="notificationCount">{{ friend_requests_count }}</div>
+      <div class="label">Inbox</div>
+    </a>
+    {% endif %}
+    
+    <!-- Friends Icon 
+    <a href="#" class="icon">
+      <i class="fas fa-users"></i>
+      <div class="label">Friends</div>
+    </a>
+-->
+    <!-- Shorts Icon (Updated to Video Icon) -->
+
+    <!-- Profile Icon -->
+     <style>
+        .bottom-bar img {
+      top: 0px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+
+    }
+     </style>
+    <a href="{% url 'profile' %}" class="icon">
+        {% if user.profile_pic %}
+        <img src="{{ user.profile_pic.url }}" alt="Profile Picture" >
+    {% else %}
+        {% if user.gender == "M" %}
+            <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" >
+        {% else %}
+            <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" >
+        {% endif %}
+    {% endif %}
+        <div class="label">Profile</div>
+      </a>
+
+
+
+  </div>
+  <header>
+    <h1>NETWORK</h1>
+  </header>
+
+  
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h2>[ 404 Not found ]</h2>
+      <div class="section-title">404 Not found</div>
+      <div class="section-content">
+        404 it's mean that's page did not exist
+      </div>
+      <div class="section-title">The people</div>
+      <div class="section-content">
+        <p></p>
+        <div class="section-content">
+          <p class="person"><a href="{% url 'person_detail' name='Zikirzoda Faridun' %}">Zikirzoda Faridun</a>: Founder, Master and Commander, Programmer<br>Main character in the network</p>
+        </div>
+        <p class="person"><a href="{% url 'person_detail' name='Zikirzoda Abubakr' %}">Zikirzoda Abubakr</a>: Business Stuff, Corporate Stuff and CFO.</p>
+        <p class="person"><a href="{% url 'person_detail' name='Zikirzoda Bobojon' %}">Zikirzoda Bobojon</a>: Graphic designer, main mathematics, ideas designer</p>
+        <p class="person"><a href="{% url 'person_detail' name='Zikirzoda Abdukhalil' %}">Zikirzoda Abdukhalil</a>: Ideas and graphic designer, General financial problem solver.</p>
+      </div>
+      <div class="contact-link">
+        <a href="{% url 'profile' %}"><button class="button">Home</button></a>
+      </div>
+
+      <div class="contact-link">
+        <a href="#">Product by Zikirzoda Faridun 2024-2025 &copy; &copysr;</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

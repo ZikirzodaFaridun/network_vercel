@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post's</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="google-site-verification" content="Mc8LxsQoK-5uW934UJLarnvuiH3NMNkiFuhE047OMe4" />
+  <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Eo_circle_purple_white_letter-n.svg/2048px-Eo_circle_purple_white_letter-n.svg.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #202124; /* Dark background */
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 140px;
+      gap: 14px;
+    }
+
+    
+.photo-post-box {
+  width: 100%;
+  background: #27293d;
+  overflow: hidden;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #5d54a4;
+
+}
+
+.photo-post-box .post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+
+.photo-post-box .content {
+  padding: 0px 20px;
+}
+
+.photo-post-box .content p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #b0a8cf;
+}
+
+.photo-post-box .actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #1d1e26;
+  border-top: 1px solid #5d54a4;
+}
+
+.photo-post-box .actions button {
+  border: none;
+  background: none;
+  color: #d8b4ff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.photo-post-box .actions .whatsup {
+  border: none;
+  background: none;
+  color: #65e45a;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+
+.photo-post-box .actions .whatsup:hover {
+    color: #3cff00;
+}
+
+
+.photo-post-box .actions .like-btn {
+  border: none;
+  background: none;
+  color: #ff3232;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+
+.photo-post-box .actions .like-btn:hover {
+    color: #f09494;
+}
+
+
+.photo-post-box .actions button:hover {
+  color: #ff58e7;
+}
+
+.photo-post-box .actions button i {
+  font-size: 18px;
+}
+
+.photo-post-box .comments {
+  padding: 15px 20px;
+  background: #1d1e26;
+  border-top: 1px solid #5d54a4;
+  display: none; /* Initially hidden */
+}
+
+.photo-post-box .comments .comment {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #d8b4ff;
+}
+
+.photo-post-box .comments input {
+  width: 68%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #5d54a4;
+  background: #27293d;
+  color: #d8b4ff;
+}
+
+.photo-post-box .comments button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #5d54a4;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.photo-post-box .comments button:hover {
+  background: #ff58e7;
+}
+
+.profile-pic-placeholder {
+  padding: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #ffffff;
+  border-top: 3px solid #a42eff;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #6a0dad;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+.icon:hover {
+  background: #a42eff;
+}
+
+.icon i {
+  font-size: 24px;
+  color: #6a0dad;
+  transition: color 0.3s ease;
+}
+
+.icon:hover i {
+  color: #fff;
+}
+
+.icon .label {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6a0dad;
+  font-weight: bold;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #a42eff;
+  color: #ffffff;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .bottom-bar {
+    height: 70px;
+    padding: 0 10px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon i {
+    font-size: 20px;
+  }
+
+  .icon .label {
+    font-size: 10px;
+  }
+}
+.main-content {
+  flex: 10;
+  padding: 15px;
+}
+
+.main-content h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #a42eff;
+}
+video {
+    width: 100%;
+    max-height: 300px;
+    margin-top: 10px;
+    object-fit: cover;
+}
+.icon-button {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background-color: #a200ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures images fit within the circle */
+}
+
+.icon-button .plus {
+  color: #fff;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.profile-pic-stories {
+  width: 100%; /* Make the image fill the icon */
+  height: 100%; /* Keep it proportional */
+  object-fit: cover; /* Ensures the image doesn't distort */
+  border-radius: 50%; /* Makes the image circular */
+}
+
+.followers {
+  width: 100%;
+  background: #302942;
+  display: flex;
+  flex-wrap: nowrap; /* Keep all items in a single row */
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center; /* Centers items vertically */
+  padding: 10px;
+  gap: 10px; /* Space between items */
+  overflow-x: auto; /* Add horizontal scroll if needed */
+}
+
+/* Dynamically adjust icon size when there are many items */
+.followers .icon-button {
+  flex: 0 0 calc(100% / 10); /* Adjust based on the number of items */
+  max-width: 50px; /* Limit the maximum size */
+  max-height: 50px;
+}
+
+/* Media query to handle smaller screens */
+@media (max-width: 768px) {
+  .followers .icon-button {
+    flex: 0 0 calc(100% / 5); /* Smaller icons on smaller screens */
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  .icon-button .plus {
+    font-size: 40px; /* Adjust font size for smaller icons */
+  }
+}
+/* Container for the button */
+.top-right-button {
+  position: fixed; /* Keeps the button fixed at the top-right */
+  top: 10px; /* Distance from the top of the page */
+  right: 10px; /* Distance from the right of the page */
+  z-index: 1000; /* Ensures the button stays on top of other elements */
+}
+
+/* Button styling */
+.top-right-button button {
+  padding: 10px 20px;
+  border: 1px solid #a200ff; /* Cyber purple */
+  background-color: #1d1e26;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Hover effect */
+.top-right-button button:hover {
+  background-color: #8a00d4;
+  transform: scale(1.1); /* Slightly enlarge the button */
+}
+    h1 {
+            font-size: 6rem;
+            margin-bottom: 2px;
+            color: #ffffff;
+            font-family: sans-serif;
+            letter-spacing: -3px;
+        }
+
+        /* Purple colorful logo effect */
+        h1 span:nth-child(1) { color: #9C27B0; }  /* Purple */
+        h1 span:nth-child(2) { color: #8E24AA; }  /* Darker purple */
+        h1 span:nth-child(3) { color: #7B1FA2; }  /* Rich purple */
+        h1 span:nth-child(4) { color: #6A1B9A; }  /* Deep purple */
+        h1 span:nth-child(5) { color: #9C27B0; }  /* Purple */
+        h1 span:nth-child(6) { color: #8E24AA; }  /* Darker purple */
+        h1 span:nth-child(7) { color: #7B1FA2; }  /* Rich purple */
+
+
+        /* Search form styling */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        /* Search input */
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            border: 1px solid #8b6da5;
+            border-radius: 24px 0 0 24px;
+            background-color: #303134;
+            color: #b13bff;
+            outline: none;
+
+        }
+
+        input[type="text"]::placeholder {
+            color: #dfaaff;
+        }
+
+
+        /* Search button */
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 1px solid #8b6da5;
+            border-left: none;
+            border-radius: 0 24px 24px 0;
+            background-color: #303134;
+            color: #b05cff;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #8b6da5;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Buttons below search */
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #303134;
+            border: 1px solid #8b6da5;
+            color: #b05cff;
+            cursor: pointer;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+            margin-bottom: 14px;
+
+        }
+
+        .buttons button:hover {
+            background-color: #8b6da5;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Material icon styles for buttons */
+        .material-icons {
+            vertical-align: middle;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+                margin-bottom: 1px;
+            }
+
+            form {
+                width: 90%;
+            }
+
+            input[type="text"] {
+                height: 24px;
+            }
+
+
+
+            .buttons {
+                align-items: center;
+            }
+
+            .buttons button {
+                margin: 5px 0;
+            }
+        }
+
+        /* Extra small screen responsiveness (phones) */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            input[type="text"], button {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+
+            .buttons button {
+                font-size: 0.9rem;
+                padding: 12px 15px;
+            }
+        }
+    .photo-post-box .actions button {
+      border: none;
+      background: none;
+      color: #d8b4ff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+    }
+
+    .photo-post-box .actions button:hover {
+      color: #ff58e7;
+    }
+
+    .photo-post-box .actions button i {
+      font-size: 18px;
+    }
+
+    .photo-post-box .comments {
+      padding: 15px 20px;
+      background: #1d1e26;
+      border-top: 1px solid #5d54a4;
+      display: none; /* Initially hidden */
+    }
+
+    .photo-post-box .comments .comment {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #d8b4ff;
+    }
+
+    .photo-post-box .comments input {
+      width: 68%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #5d54a4;
+      background: #27293d;
+      color: #d8b4ff;
+    }
+
+    .photo-post-box .comments button {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #5d54a4;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .photo-post-box .comments button:hover {
+      background: #ff58e7;
+    }
+
+    .profile-pic-placeholder {
+      padding: 14px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #ffffff;
+      border-top: 3px solid #a42eff;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 15px;
+      z-index: 100;
+    }
+
+    .icon {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #6a0dad;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transition: background 0.3s ease;
+    }
+
+    .icon:hover {
+      background: #a42eff;
+    }
+
+    .icon i {
+      font-size: 24px;
+      color: #6a0dad;
+      transition: color 0.3s ease;
+    }
+
+    .icon:hover i {
+      color: #fff;
+    }
+
+    .icon .label {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #6a0dad;
+      font-weight: bold;
+    }
+
+    /* Notification Badge */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #a42eff;
+      color: #ffffff;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+    }
+
+    /* Media Queries for Mobile */
+    @media (max-width: 768px) {
+      .bottom-bar {
+        height: 70px;
+        padding: 0 10px;
+      }
+
+      .icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .icon i {
+        font-size: 20px;
+      }
+
+      .icon .label {
+        font-size: 10px;
+      }
+    }
+    .main-content {
+      flex: 10;
+      padding: 15px;
+    }
+
+    .main-content h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #a42eff;
+    }
+    video {
+        width: 100%;
+        max-height: 300px;
+        border-radius: 8px;
+        margin-top: 10px;
+        object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <style>
+    .icon-button {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      background-color: #a200ff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Ensures images fit within the circle */
+    }
+
+    .icon-button .plus {
+      color: #fff;
+      font-size: 50px;
+      font-weight: bold;
+    }
+
+    .profile-pic-stories {
+      width: 100%; /* Make the image fill the icon */
+      height: 100%; /* Keep it proportional */
+      object-fit: cover; /* Ensures the image doesn't distort */
+      border-radius: 50%; /* Makes the image circular */
+    }
+
+    .followers {
+      width: 100%;
+      background: #302942;
+      display: flex;
+      flex-wrap: nowrap; /* Keep all items in a single row */
+      justify-content: flex-start; /* Align items to the left */
+      align-items: center; /* Centers items vertically */
+      padding: 10px;
+      gap: 10px; /* Space between items */
+      overflow-x: auto; /* Add horizontal scroll if needed */
+    }
+
+    /* Dynamically adjust icon size when there are many items */
+    .followers .icon-button {
+      flex: 0 0 calc(100% / 10); /* Adjust based on the number of items */
+      max-width: 50px; /* Limit the maximum size */
+      max-height: 50px;
+    }
+
+    /* Media query to handle smaller screens */
+    @media (max-width: 768px) {
+      .followers .icon-button {
+        flex: 0 0 calc(100% / 5); /* Smaller icons on smaller screens */
+        max-width: 40px;
+        max-height: 40px;
+      }
+
+      .icon-button .plus {
+        font-size: 40px; /* Adjust font size for smaller icons */
+      }
+    }
+    /* Container for the button */
+    .top-right-button {
+      position: fixed; /* Keeps the button fixed at the top-right */
+      top: 10px; /* Distance from the top of the page */
+      right: 10px; /* Distance from the right of the page */
+      z-index: 1000; /* Ensures the button stays on top of other elements */
+    }
+
+    /* Button styling */
+    .top-right-button button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: 1px solid #8b6da5;
+      border-radius: 4px;
+      background-color: #303134;
+      color: #b05cff;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Hover effect */
+    .top-right-button button:hover {
+      background-color: #8b6da5;
+            color: white;
+            transition: 0.3s; /* Slightly enlarge the button */
+    }
+
+  </style>
+<div class="top-right-button">
+<button onclick="redirectToSite()">+</button>
+
+</div>
+
+<!-- Page content -->
+
+
+<script>
+function redirectToSite() {
+    window.location.href = "{% url 'create_short' %}"; // Replace with your desired URL
+}
+function redirectToSite2(){
+  window.location.href = "{%  url 'users_list' %}";
+
+}
+function redirectToSite3() {
+  window.location.href = "{%  url 'profile' %}"
+
+}
+</script>
+<style>
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #ffffff;
+  border-top: 3px solid #a42eff;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #6a0dad;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+.icon:hover {
+  background: #a42eff;
+}
+
+.icon i {
+  font-size: 24px;
+  color: #6a0dad;
+  transition: color 0.3s ease;
+}
+
+.icon:hover i {
+  color: #fff;
+}
+
+.icon .label {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6a0dad;
+  font-weight: bold;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #a42eff;
+  color: #ffffff;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(164, 46, 255, 0.5);
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .bottom-bar {
+    height: 70px;
+    padding: 0 10px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon i {
+    font-size: 20px;
+  }
+
+  .icon .label {
+    font-size: 10px;
+  }
+}
+.button {
+  border: 1px solid #a42eff;
+  background-color: #1e1e2f;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+</style>
+<div class="bottom-bar">
+  <a href="{% url 'recomand' %}" class="icon">
+    <i class="fas fa-home"></i>
+    <div class="label">Home</div>
+  </a>
+  <a href="{% url 'users_list' %}" class="icon">
+      <i class="fas fa-users"></i>
+      <div class="label">Search</div>
+    </a>
+
+  <!-- Search Icon -->
+
+
+  
+
+  <!-- Photos Icon (Updated to Camera Icon) -->
+  <a href="{% url 'search_page' %}" class="icon">
+    <i class="fas fa-search"></i>
+    <div class="label">Network</div>
+  </a>
+
+  <!-- Inbox Icon (Updated to Message Icon) -->
+   {% if friend_requests_count != 0 %}
+  <a href="{% url 'inbox' %}" class="icon">
+    <i class="fas fa-envelope"></i>
+    
+    <div class="notification-badge" id="notificationCount">{{ friend_requests_count }}</div>
+    <div class="label">Inbox</div>
+  </a>
+  {% endif %}
+  
+  <!-- Friends Icon 
+  <a href="#" class="icon">
+    <i class="fas fa-users"></i>
+    <div class="label">Friends</div>
+  </a>
+-->
+  <!-- Shorts Icon (Updated to Video Icon) -->
+
+  <!-- Profile Icon -->
+  <style>
+    .bottom-bar img {
+  top: 0px;
+    width: 25px;
+    height: 25px;
+    border-radius: 1000px;
+    object-fit: cover;
+
+}
+ </style>
+<a href="{% url 'profile' %}" class="icon">
+    {% if request.user.profile_pic %}
+    <img src="{{ request.user.profile_pic.url }}" alt="Profile Picture" >
+{% else %}
+    {% if user.gender == "M" %}
+    <img src="https://t3.ftcdn.net/jpg/04/43/94/64/360_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.webp" alt="Male Placeholder" class="profile-image">
+    {% else %}
+        <img src="https://media.istockphoto.com/id/1327592664/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F-%D1%84%D0%BE%D1%82%D0%BE-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D0%BE%D0%B5-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B6%D0%B5%D0%BD%D1%89%D0%B8%D0%BD%D0%B0.jpg?s=170667a&w=0&k=20&c=zSkOCGQKzshhVaqfS6hHsmUYbOQopoz0Z3dcPllf8uE=" alt="Female Placeholder" class="profile-image">
+    {% endif %}
+{% endif %}
+    <div class="label">Profile</div>
+  </a>
+  <style>
+    /* Beautiful Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 8px; /* Adjust width of the scrollbar */
+        background-color: #1e1e2f; /* Light background for the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #a42eff; /* Default color for the scrollbar thumb */
+        border: 2px solid #a42eff; /* Border around the thumb */
+        transition: background-color 0.3s ease; /* Smooth transition for color change */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #a42eff; /* Darker color on hover */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent; /* Transparent background for the track */
+    }
+</style>
+
+
+</div>
+
+
+  <style>
+    .trigger-text {
+      color: #a42eff;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 1.2rem;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .popup-content.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .popup-header {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #a42eff;
+    }
+
+    .popup-body {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .caption-button {
+      border: 1px solid #a42eff;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .caption-button:hover {
+      background: #a42eff;
+    }
+  </style>
+  <!-- Post --> <h1>
+        <span>N</span><span>e</span><span>t</span><span>w</span><span>o</span><span>r</span><span>k</span>
+      </h1>
+  <form method="GET" action="{% url 'photos_results' %}">
+    <input type="text" name="q" placeholder="Search by caption or category" value="{{ query }}">
+    <button type="submit"><span class="material-icons">search</span></button>
+</form>
+{% if posts%}
+  {% for post in posts %}
+  <div class="photo-post-box">
+    <div class="header">
+      {% if post.user.profile_pic %}
+        <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="profile-pic-placeholder">
+      {% else %}
+      {% if user.gender == "M" %}
+      <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" class="profile-pic-placeholder">
+  {% else %}
+      <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" class="profile-pic-placeholder">
+  {% endif %}
+      {% endif %}
+      <a href="{% url 'user_profile' post.user.username %}">
+        <h5>{{ post.user.username }} </h5></a>
+      <div class="content"><p>{{ post.created_at|timesince }}</p></div>
+    </div>
+    
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="Post Image" class="post-image">
+    {% endif %}
+<div class="popup-overlay" id="popup">
+  <div class="popup-content">
+      <div class="header">
+        {% if post.user.profile_pic %}
+        <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="profile-pic-placeholder">
+      {% else %}
+      {% if user.gender == "M" %}
+      <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" class="profile-pic-placeholder">
+  {% else %}
+      <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" class="profile-pic-placeholder">
+  {% endif %}
+      {% endif %}
+        <h5>User: {{ post.user.username }}</h5>
+        <hr>
+        <button class="caption-button" onclick="closePopup()"><i class="fas fa-close"></i></button>
+
+        
+      </div>  
+
+      <div class="content">
+        <p>Category: {{ post.category }}</p>
+        <p>Caption: {{ post.caption }}</p>
+        <p>Time: {{ post.created_at }} | {{ post.created_at|timesince }}</p>
+        <p>Type profile: {{ post.user.get_profile_type_display }}</p>
+      </div>
+      <div class="actions">
+        <p>Likes: {{ post.likes_photo.count }}</p>
+        <p>Comments: {{ post.comments.count }}</p>
+
+      </div>
+  </div>
+</div>
+
+<script>
+  const popup = document.getElementById('popup');
+
+  function openPopup() {
+    popup.style.display = 'flex';
+    setTimeout(() => {
+      popup.querySelector('.popup-content').classList.add('active');
+    }, 10);
+  }
+
+  function closePopup() {
+    popup.querySelector('.popup-content').classList.remove('active');
+    setTimeout(() => {
+      popup.style.display = 'none';
+    }, 300);
+  }
+</script>
+    <div class="content"  onclick="openPopup()">
+      <p onclick="openPopup()">{{ post.caption }}</p>
+    </div>
+    <div class="actions">
+      <button class="like-btn" data-post-id="{{ post.id }}">
+        {% if post.has_liked %}
+        <i class="fas fa-thumbs-down"></i>
+        {% else %}
+        <i class="fas fa-thumbs-up"></i>
+        {% endif %}
+        <span class="like-count">{{ post.likes.count }}</span>
+      </button>
+      <button class="toggle-comments" onclick="toggleComments('{{ post.id }}')">
+        <i class="fas fa-comments"></i> Comments <span>{{ post.comments.count }}</span>
+      </button>
+    </div>
+    <div class="comments" id="comments-{{ post.id }}">
+        {% for comment in post.comments_list %}
+          <div class="header">
+            {% if comment.user.profile_pic %}
+              <img src="{{ comment.user.profile_pic.url }}" alt="" class="profile-pic-placeholder">
+            {% else %}
+            {% if user.gender == "M" %}
+            <img src="https://gifdb.com/images/thumbnail/profile-pic-storm-troopers-star-wars-u776e7rxopb05g64.gif" alt="Male Placeholder" class="profile-pic-placeholder">
+        {% else %}
+            <img src="https://cdn.pfps.gg/pfps/1682-purple-warm-cool-wow.gif" alt="Female Placeholder" class="profile-pic-placeholder">
+        {% endif %}
+            {% endif %}
+            <strong>{{ comment.user.username }}</strong>:{{ comment.content }}
+</div>
+        {% endfor %}
+        <form method="POST">
+          {% csrf_token %}
+          <input name="content" placeholder="Add a comment">
+          <input type="hidden" name="post_id" value="{{ post.id }}">
+          <button type="submit">Share</button>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <p>No shorts post</p>
+    {% endfor %}
+    {% else %}
+    <div class="photo-post-box">
+      <div class="header">
+        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2180848911.jpg" alt="" class="profile-pic-placeholder">
+        <h5>Nothing find with this request</h5>
+      </div>
+      
+
+  
+    
+      <div class="content">
+        <p>Not found</p>
+      </div>
+      <div class="actions">
+
+      </div>
+      
+      </div>
+    {% endif %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+      $(".like-btn").click(function() {
+        var postId = $(this).data("post-id");
+        var button = $(this);
+        $.ajax({
+          url: "{% url 'like_post' %}",
+          type: "POST",
+          data: {
+            'post_id': postId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+                    if (response.success) {
+                        var icon = button.find("i");
+                        if (icon.hasClass('fa-thumbs-down')) {
+                            icon.removeClass('fa-thumbs-down').addClass('fa-thumbs-up');
+                        } else {
+                            icon.removeClass('fa-thumbs-up').addClass('fa-thumbs-down');
+                        }
+                        button.find(".like-count").text(response.like_count);
+                    }
+                }
+        });
+      });
+    });
+      // Toggle comments visibility
+      function toggleComments(postId) {
+        const commentsDiv = document.getElementById(`comments-${postId}`);
+        commentsDiv.style.display = commentsDiv.style.display === "none" ? "block" : "none";
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<style>
+    /* General Page Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5; /* Light gray background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container Styling */
+.edit-shorts-container {
+    background: #fff; /* White card background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/* Title Styling */
+.edit-shorts-title {
+    font-size: 24px;
+    color: #a42eff; /* Cyber purple */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form Styling */
+.edit-shorts-form .form-fields {
+    margin-bottom: 20px;
+}
+
+.edit-shorts-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.edit-shorts-form input,
+.edit-shorts-form select,
+.edit-shorts-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Buttons Styling */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.save-button,
+.cancel-button {
+    background-color: #a42eff; /* Cyber purple */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+    background-color: #8c24e6; /* Slightly darker purple */
+    transform: scale(1.05);
+}
+
+.cancel-button {
+    background-color: #ff4d4d; /* Red for cancel */
+}
+
+.cancel-button:hover {
+    background-color: #e63939; /* Darker red */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .edit-shorts-container {
+        padding: 20px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .save-button,
+    .cancel-button {
+        width: 100%;
+    }
+}
+
+</style>
+<div class="edit-shorts-container">
+    <h2 class="edit-shorts-title">Edit Your Shorts</h2>
+    <form method="post" enctype="multipart/form-data" class="edit-shorts-form">
+        {% csrf_token %}
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="save-button">Save Changes</button>
+            <a href="{% url 'shorts_results' %}" class="cancel-button">Cancel</a>
+                <button type="submit" name="delete" class="cancel-button">Delete Shorts</button>
+        </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
